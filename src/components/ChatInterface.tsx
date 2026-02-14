@@ -3,13 +3,15 @@
 import { useState } from 'react';
 import { AnalysisMode, ConversationStep } from '@/lib/types';
 import { getModeConfig } from '@/config/modes';
-import { saveAnalysis, generateId } from '@/lib/storage';
+import { saveAnalysis } from '@/lib/storage';
+import { useAuth } from './AuthProvider';
 import ModeSelector from './ModeSelector';
 import AnalysisOutput from './AnalysisOutput';
 
 export default function ChatInterface() {
+  const { user } = useAuth();
   const [mode, setMode] = useState<AnalysisMode>('analyse-mvp');
-  const [currentStep, setCurrentStep] = useState(-1); // -1 = mode selection
+  const [currentStep, setCurrentStep] = useState(-1);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [currentAnswer, setCurrentAnswer] = useState('');
   const [analysisResult, setAnalysisResult] = useState<string | null>(null);
@@ -69,16 +71,12 @@ export default function ChatInterface() {
 
       setAnalysisResult(data.result);
 
-      // Save to localStorage
-      const firstAnswer = Object.values(finalAnswers)[0] || 'Untitled';
-      const title = firstAnswer.slice(0, 60) + (firstAnswer.length > 60 ? '...' : '');
-      saveAnalysis({
-        id: generateId(),
-        title,
-        mode,
-        rawMarkdown: data.result,
-        createdAt: new Date().toISOString(),
-      });
+      // Save to Supabase
+      if (user) {
+        const firstAnswer = Object.values(finalAnswers)[0] || 'Untitled';
+        const title = firstAnswer.slice(0, 60) + (firstAnswer.length > 60 ? '...' : '');
+        await saveAnalysis(user.id, title, mode, data.result);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
@@ -97,13 +95,11 @@ export default function ChatInterface() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-stone-800">Seraphina</h1>
         <p className="text-stone-500 mt-1">Your Systems Analyst</p>
       </div>
 
-      {/* Mode Selection */}
       {currentStep === -1 && (
         <div className="space-y-6">
           <div>
@@ -124,10 +120,8 @@ export default function ChatInterface() {
         </div>
       )}
 
-      {/* Conversation Steps */}
       {currentStep >= 0 && !isComplete && (
         <div className="space-y-6">
-          {/* Previous answers */}
           {Object.entries(answers).map(([question, answer]) => (
             <div key={question} className="space-y-2">
               <div className="flex items-start gap-3">
@@ -142,7 +136,6 @@ export default function ChatInterface() {
             </div>
           ))}
 
-          {/* Current question */}
           <div className="flex items-start gap-3">
             <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center flex-shrink-0 mt-0.5">
               <span className="text-violet-600 text-sm font-medium">S</span>
@@ -180,7 +173,6 @@ export default function ChatInterface() {
         </div>
       )}
 
-      {/* Loading */}
       {isAnalysing && (
         <div className="text-center py-16 space-y-4">
           <div className="inline-flex items-center gap-3 text-stone-500">
@@ -191,7 +183,6 @@ export default function ChatInterface() {
         </div>
       )}
 
-      {/* Error */}
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4 mt-6">
           <p className="text-red-700 text-sm">{error}</p>
@@ -204,7 +195,6 @@ export default function ChatInterface() {
         </div>
       )}
 
-      {/* Analysis Result */}
       {analysisResult && (
         <div className="space-y-6 mt-6">
           <div className="flex items-center justify-between">

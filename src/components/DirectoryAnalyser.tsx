@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { DirectoryEntry } from '@/lib/types';
-import { saveDirectoryAnalysis, generateId } from '@/lib/storage';
+import { saveDirectoryAnalysis } from '@/lib/storage';
+import { useAuth } from './AuthProvider';
 import AnalysisOutput from './AnalysisOutput';
 
 async function readDirectoryRecursive(
@@ -51,6 +52,7 @@ function renderTree(entries: DirectoryEntry[], indent = 0): React.ReactNode {
 }
 
 export default function DirectoryAnalyser() {
+  const { user } = useAuth();
   const [tree, setTree] = useState<DirectoryEntry[] | null>(null);
   const [analysisResult, setAnalysisResult] = useState<string | null>(null);
   const [isAnalysing, setIsAnalysing] = useState(false);
@@ -100,13 +102,10 @@ export default function DirectoryAnalyser() {
 
       setAnalysisResult(data.result);
 
-      saveDirectoryAnalysis({
-        id: generateId(),
-        title: `Folder: ${folderName}`,
-        tree,
-        rawMarkdown: data.result,
-        createdAt: new Date().toISOString(),
-      });
+      // Save to Supabase
+      if (user) {
+        await saveDirectoryAnalysis(user.id, `Folder: ${folderName}`, tree, data.result);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {

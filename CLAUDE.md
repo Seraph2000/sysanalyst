@@ -9,7 +9,8 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 ## Tech Stack
 - **Frontend**: Next.js 14 (App Router) + Tailwind CSS
 - **LLM**: Google Gemini API (`gemini-2.5-flash`) via `@google/generative-ai` (chosen for free tier; service layer designed to swap to Claude API later)
-- **Storage**: localStorage for MVP, Supabase planned for v0.2
+- **Auth & Storage**: Supabase (passwordless magic links, PostgreSQL with RLS)
+- **Supabase SDKs**: `@supabase/supabase-js` + `@supabase/ssr`
 - **Deployment**: Vercel-ready
 - **Language**: TypeScript
 
@@ -19,6 +20,10 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - Analysis modes defined in `config/modes.ts`
 - Directory analyser uses browser File System Access API (file/folder names only, never contents)
 - Guided conversation approach (not blank text box) because target users are disorganised founders
+- Supabase auth via magic links (passwordless) — no passwords to manage
+- Row Level Security (RLS) on all tables — users can only access their own data
+- Types use snake_case field names (raw_markdown, created_at) to match Supabase column conventions
+- AuthProvider wraps the entire app; AuthGuard shows login screen when unauthenticated
 
 ## Seraphina's Personality
 - Calm, sovereign tone
@@ -68,4 +73,13 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - `src/lib/gemini.ts` — LLM service layer
 - `src/lib/prompts.ts` — system prompts and personality
 - `src/lib/types.ts` — TypeScript type definitions
+- `src/lib/supabase.ts` — Supabase browser client factory
+- `src/lib/storage.ts` — Supabase CRUD operations (analyses + directory analyses)
 - `src/config/modes.ts` — analysis mode definitions
+- `src/components/AuthProvider.tsx` — Auth context (user, session, signOut)
+- `src/components/AuthGuard.tsx` — Login UI (magic link) + sign-out button
+- `supabase-setup.sql` — Database migration (tables + RLS policies)
+
+## GitHub
+- Repo: `Seraph2000/seraphina-agent` (private)
+- Remote: HTTPS via `gh auth`

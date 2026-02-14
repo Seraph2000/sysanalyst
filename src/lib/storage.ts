@@ -1,46 +1,68 @@
-import { Analysis, DirectoryAnalysis } from './types';
+import { createClient } from './supabase';
+import { Analysis, DirectoryAnalysis, DirectoryEntry, AnalysisMode } from './types';
 
-const ANALYSES_KEY = 'seraphina_analyses';
-const DIRECTORY_KEY = 'seraphina_directory_analyses';
-
-export function saveAnalysis(analysis: Analysis): void {
-  const existing = getAnalyses();
-  existing.unshift(analysis);
-  localStorage.setItem(ANALYSES_KEY, JSON.stringify(existing));
+export async function saveAnalysis(
+  userId: string,
+  title: string,
+  mode: AnalysisMode,
+  rawMarkdown: string
+): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase.from('analyses').insert({
+    user_id: userId,
+    title,
+    mode,
+    raw_markdown: rawMarkdown,
+  });
+  if (error) throw error;
 }
 
-export function getAnalyses(): Analysis[] {
-  if (typeof window === 'undefined') return [];
-  const data = localStorage.getItem(ANALYSES_KEY);
-  return data ? JSON.parse(data) : [];
+export async function getAnalyses(userId: string): Promise<Analysis[]> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('analyses')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return data || [];
 }
 
-export function getAnalysisById(id: string): Analysis | undefined {
-  return getAnalyses().find((a) => a.id === id);
+export async function deleteAnalysis(id: string): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase.from('analyses').delete().eq('id', id);
+  if (error) throw error;
 }
 
-export function deleteAnalysis(id: string): void {
-  const existing = getAnalyses().filter((a) => a.id !== id);
-  localStorage.setItem(ANALYSES_KEY, JSON.stringify(existing));
+export async function saveDirectoryAnalysis(
+  userId: string,
+  title: string,
+  tree: DirectoryEntry[],
+  rawMarkdown: string
+): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase.from('directory_analyses').insert({
+    user_id: userId,
+    title,
+    tree,
+    raw_markdown: rawMarkdown,
+  });
+  if (error) throw error;
 }
 
-export function saveDirectoryAnalysis(analysis: DirectoryAnalysis): void {
-  const existing = getDirectoryAnalyses();
-  existing.unshift(analysis);
-  localStorage.setItem(DIRECTORY_KEY, JSON.stringify(existing));
+export async function getDirectoryAnalyses(userId: string): Promise<DirectoryAnalysis[]> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('directory_analyses')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return data || [];
 }
 
-export function getDirectoryAnalyses(): DirectoryAnalysis[] {
-  if (typeof window === 'undefined') return [];
-  const data = localStorage.getItem(DIRECTORY_KEY);
-  return data ? JSON.parse(data) : [];
-}
-
-export function deleteDirectoryAnalysis(id: string): void {
-  const existing = getDirectoryAnalyses().filter((a) => a.id !== id);
-  localStorage.setItem(DIRECTORY_KEY, JSON.stringify(existing));
-}
-
-export function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+export async function deleteDirectoryAnalysis(id: string): Promise<void> {
+  const supabase = createClient();
+  const { error } = await supabase.from('directory_analyses').delete().eq('id', id);
+  if (error) throw error;
 }

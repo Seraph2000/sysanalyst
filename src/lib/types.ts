@@ -6,10 +6,11 @@ export interface AnalysisSection {
 
 export interface Analysis {
   id: string;
+  user_id?: string;
   title: string;
   mode: AnalysisMode;
-  rawMarkdown: string;
-  createdAt: string;
+  raw_markdown: string;
+  created_at: string;
 }
 
 export interface DirectoryEntry {
@@ -20,10 +21,11 @@ export interface DirectoryEntry {
 
 export interface DirectoryAnalysis {
   id: string;
+  user_id?: string;
   title: string;
   tree: DirectoryEntry[];
-  rawMarkdown: string;
-  createdAt: string;
+  raw_markdown: string;
+  created_at: string;
 }
 
 export type AnalysisMode =

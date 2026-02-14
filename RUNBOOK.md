@@ -75,6 +75,42 @@ A running log of work done, decisions made, and issues encountered during develo
 
 ---
 
+## Session 3 — 2026-02-14: v0.2 Auth & Persistence
+
+### What Was Done
+- Installed `@supabase/supabase-js` and `@supabase/ssr` dependencies
+- Created Supabase browser client factory (`lib/supabase.ts`)
+- Created AuthProvider context (`components/AuthProvider.tsx`) — provides user, session, loading, signOut
+- Created AuthGuard component (`components/AuthGuard.tsx`) — magic link login UI + sign-out button
+- Rewrote storage layer (`lib/storage.ts`) — all CRUD operations now go through Supabase instead of localStorage
+- Updated types to snake_case fields (`raw_markdown`, `created_at`) to match Supabase columns
+- Updated ChatInterface and DirectoryAnalyser to use auth context and async saves
+- Updated Dashboard to load from Supabase with loading state
+- Updated layout.tsx to wrap app with AuthProvider and AuthGuard
+- Created `supabase-setup.sql` migration script (2 tables + RLS policies)
+- Updated `.env.local.example` with Supabase env vars
+- User set up Supabase project, ran SQL migration, tested end-to-end
+- All features confirmed working: login, analysis save, directory save, dashboard, delete, persistence
+
+### Key Decisions
+
+| Decision | Choice | Reasoning |
+|----------|--------|-----------|
+| Auth method | Passwordless magic links | No passwords to manage, simple UX, Supabase handles email delivery |
+| Database | Supabase PostgreSQL | Free tier, built-in auth, RLS for security, real-time capable for future |
+| Type field naming | snake_case (raw_markdown) | Matches Supabase column naming convention, avoids mapping layer |
+| Session management | @supabase/ssr cookies | Survives browser close, works with SSR |
+
+### Troubleshooting
+
+| Issue | Resolution |
+|-------|------------|
+| User couldn't find Supabase anon key | Located under Settings > API > Legacy anon key tab (not default view) |
+| Webpack cache warnings after install | Deleted `.next` directory and restarted dev server |
+| Node.js 18 deprecation warning from @supabase/supabase-js | Non-blocking warning; upgrade to Node 20+ recommended but not required |
+
+---
+
 ## Session Template
 
 Copy this for future sessions:

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getAnalyses, deleteAnalysis, getDirectoryAnalyses, deleteDirectoryAnalysis } from '@/lib/storage';
 import { Analysis, DirectoryAnalysis } from '@/lib/types';
 import { ANALYSIS_MODES } from '@/config/modes';
+import { useAuth } from '@/components/AuthProvider';
 import AnalysisOutput from '@/components/AnalysisOutput';
 
 type SavedItem = {
@@ -30,46 +31,68 @@ function formatDate(iso: string): string {
   });
 }
 
-function loadAllItems(): SavedItem[] {
-  const analyses = getAnalyses().map((a: Analysis) => ({
-    id: a.id,
-    title: a.title,
-    type: 'analysis' as const,
-    label: getModeLabel(a.mode),
-    rawMarkdown: a.rawMarkdown,
-    createdAt: a.createdAt,
-  }));
-
-  const directories = getDirectoryAnalyses().map((d: DirectoryAnalysis) => ({
-    id: d.id,
-    title: d.title,
-    type: 'directory' as const,
-    label: 'Directory Analysis',
-    rawMarkdown: d.rawMarkdown,
-    createdAt: d.createdAt,
-  }));
-
-  return [...analyses, ...directories].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  );
-}
-
 export default function DashboardPage() {
+  const { user } = useAuth();
   const [items, setItems] = useState<SavedItem[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const loadAllItems = useCallback(async () => {
+    if (!user) return;
+    setLoading(true);
+
+    try {
+      const [analyses, directories] = await Promise.all([
+        getAnalyses(user.id),
+        getDirectoryAnalyses(user.id),
+      ]);
+
+      const analysisItems: SavedItem[] = analyses.map((a: Analysis) => ({
+        id: a.id,
+        title: a.title,
+        type: 'analysis' as const,
+        label: getModeLabel(a.mode),
+        rawMarkdown: a.raw_markdown,
+        createdAt: a.created_at,
+      }));
+
+      const directoryItems: SavedItem[] = directories.map((d: DirectoryAnalysis) => ({
+        id: d.id,
+        title: d.title,
+        type: 'directory' as const,
+        label: 'Directory Analysis',
+        rawMarkdown: d.raw_markdown,
+        createdAt: d.created_at,
+      }));
+
+      setItems(
+        [...analysisItems, ...directoryItems].sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+      );
+    } catch (err) {
+      console.error('Failed to load analyses:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [user]);
 
   useEffect(() => {
-    setItems(loadAllItems());
-  }, []);
+    loadAllItems();
+  }, [loadAllItems]);
 
-  function handleDelete(item: SavedItem) {
-    if (item.type === 'analysis') {
-      deleteAnalysis(item.id);
-    } else {
-      deleteDirectoryAnalysis(item.id);
+  async function handleDelete(item: SavedItem) {
+    try {
+      if (item.type === 'analysis') {
+        await deleteAnalysis(item.id);
+      } else {
+        await deleteDirectoryAnalysis(item.id);
+      }
+      if (selectedId === item.id) setSelectedId(null);
+      await loadAllItems();
+    } catch (err) {
+      console.error('Failed to delete:', err);
     }
-    setItems(loadAllItems());
-    if (selectedId === item.id) setSelectedId(null);
   }
 
   const selected = items.find((a) => a.id === selectedId);
@@ -83,7 +106,14 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {items.length === 0 ? (
+      {loading ? (
+        <div className="text-center py-16">
+          <div className="inline-flex items-center gap-3 text-stone-500">
+            <div className="w-5 h-5 border-2 border-violet-300 border-t-violet-600 rounded-full animate-spin" />
+            <span>Loading your analyses...</span>
+          </div>
+        </div>
+      ) : items.length === 0 ? (
         <div className="text-center py-16">
           <p className="text-stone-400 text-lg">No saved analyses yet.</p>
           <p className="text-stone-400 text-sm mt-2">
@@ -92,7 +122,6 @@ export default function DashboardPage() {
         </div>
       ) : (
         <div className="space-y-4">
-          {/* Item List */}
           {!selectedId && (
             <div className="space-y-3">
               {items.map((item) => (
@@ -132,7 +161,6 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {/* Selected Item */}
           {selected && (
             <div className="space-y-4">
               <button

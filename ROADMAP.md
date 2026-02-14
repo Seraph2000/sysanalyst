@@ -41,11 +41,11 @@
 
 ## v0.2 — Auth & Persistence
 
-- [ ]Passwordless authentication (magic links / email codes)
-- [ ]Supabase database integration
-- [ ]Cloud-saved analyses (replace localStorage)
-- [ ]User accounts and sessions
-- [ ]Cross-device access to saved analyses
+- [x]Passwordless authentication (magic links / email codes)
+- [x]Supabase database integration
+- [x]Cloud-saved analyses (replace localStorage)
+- [x]User accounts and sessions
+- [x]Cross-device access to saved analyses
 
 ---
 

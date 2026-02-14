@@ -27,7 +27,7 @@ She is a **Systems Analyst**, not a general assistant.
 
 - **Frontend**: Next.js 14 (App Router) + Tailwind CSS
 - **LLM**: Google Gemini API (swappable service layer)
-- **Storage**: localStorage (MVP), Supabase (planned)
+- **Auth & Storage**: Supabase (passwordless magic links, PostgreSQL with RLS)
 - **Deployment**: Vercel-ready
 
 ## Getting Started
@@ -36,6 +36,7 @@ She is a **Systems Analyst**, not a general assistant.
 
 - Node.js 18+
 - A Google Gemini API key ([get one free](https://makersuite.google.com/app/apikey))
+- A Supabase project ([sign up free](https://supabase.com))
 
 ### Setup
 
@@ -48,15 +49,21 @@ She is a **Systems Analyst**, not a general assistant.
    ```bash
    cp .env.local.example .env.local
    ```
-4. Add your Gemini API key to `.env.local`:
+4. Add your keys to `.env.local`:
    ```
    GEMINI_API_KEY=your_key_here
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
    ```
-5. Start the development server:
+5. Run the database setup in your Supabase SQL Editor:
+   ```
+   Copy the contents of supabase-setup.sql and run it in Dashboard > SQL Editor
+   ```
+6. Start the development server:
    ```bash
    npm run dev
    ```
-6. Open [http://localhost:3000](http://localhost:3000)
+7. Open [http://localhost:3000](http://localhost:3000)
 
 ## Features (MVP)
 
