@@ -5,7 +5,7 @@ import { AnalyseRequest } from '@/lib/types';
 export async function POST(request: NextRequest) {
   try {
     const body: AnalyseRequest = await request.json();
-    const { mode, answers } = body;
+    const { mode, answers, preferences } = body;
 
     if (!mode || !answers) {
       return NextResponse.json(
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await analyseInput(mode, answers);
+    const result = await analyseInput(mode, answers, preferences);
     return NextResponse.json({ result });
   } catch (error) {
     console.error('Analysis error:', error);

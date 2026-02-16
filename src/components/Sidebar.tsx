@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { href: '/chat', label: 'New Analysis', icon: '💬' },
   { href: '/directory', label: 'Directory Analyser', icon: '📁' },
   { href: '/dashboard', label: 'Saved Analyses', icon: '📋' },
+  { href: '/settings', label: 'Settings', icon: '⚙️' },
 ];
 
 export default function Sidebar() {
@@ -44,7 +45,7 @@ export default function Sidebar() {
       {/* Footer */}
       <div className="pt-6 border-t border-stone-200">
         <p className="text-xs text-stone-400">
-          v0.1 MVP
+          v0.3
         </p>
         <p className="text-xs text-stone-400 mt-1">
           Clarity over complexity.

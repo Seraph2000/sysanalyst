@@ -51,12 +51,12 @@
 
 ## v0.3 — Customisation
 
-- [ ]Tone settings (gentle, crisp, blunt, playful)
-- [ ]Technical depth slider (beginner → expert)
-- [ ]Risk tolerance setting (conservative → aggressive)
-- [ ]Preferred architecture style (API-first, agent-first, modular, monolith)
-- [ ]User preferences saved to profile
-- [ ]Settings panel in the UI
+- [x]Tone settings (gentle, crisp, blunt, playful)
+- [x]Technical depth slider (beginner → expert)
+- [x]Risk tolerance setting (conservative → aggressive)
+- [x]Preferred architecture style (API-first, agent-first, modular, monolith)
+- [x]User preferences saved to profile
+- [x]Settings panel in the UI
 
 ---
 

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { AnalysisMode, ConversationStep } from '@/lib/types';
+import { useState, useEffect } from 'react';
+import { AnalysisMode, ConversationStep, UserPreferences } from '@/lib/types';
 import { getModeConfig } from '@/config/modes';
 import { saveAnalysis } from '@/lib/storage';
+import { getPreferences } from '@/lib/preferences';
 import { useAuth } from './AuthProvider';
 import ModeSelector from './ModeSelector';
 import AnalysisOutput from './AnalysisOutput';
@@ -17,6 +18,13 @@ export default function ChatInterface() {
   const [analysisResult, setAnalysisResult] = useState<string | null>(null);
   const [isAnalysing, setIsAnalysing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [preferences, setPreferences] = useState<UserPreferences | undefined>();
+
+  useEffect(() => {
+    if (user) {
+      getPreferences(user.id).then(setPreferences);
+    }
+  }, [user]);
 
   const modeConfig = getModeConfig(mode);
   const steps: ConversationStep[] = modeConfig.steps;
@@ -60,7 +68,7 @@ export default function ChatInterface() {
       const response = await fetch('/api/analyse', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode, answers: finalAnswers }),
+        body: JSON.stringify({ mode, answers: finalAnswers, preferences }),
       });
 
       const data = await response.json();

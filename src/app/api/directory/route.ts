@@ -5,7 +5,7 @@ import { DirectoryAnalyseRequest } from '@/lib/types';
 export async function POST(request: NextRequest) {
   try {
     const body: DirectoryAnalyseRequest = await request.json();
-    const { tree } = body;
+    const { tree, preferences } = body;
 
     if (!tree || !Array.isArray(tree)) {
       return NextResponse.json(
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await analyseDirectory(tree);
+    const result = await analyseDirectory(tree, preferences);
     return NextResponse.json({ result });
   } catch (error) {
     console.error('Directory analysis error:', error);

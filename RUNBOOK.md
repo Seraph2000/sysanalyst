@@ -111,6 +111,57 @@ A running log of work done, decisions made, and issues encountered during develo
 
 ---
 
+## Session 4 — 2026-02-14: v0.3 Customisation
+
+### What Was Done
+- Added user preferences system: tone, technical depth, risk tolerance, architecture style
+- Created `user_preferences` Supabase table with RLS (migration: `supabase-v0.3.sql`)
+- Created preferences CRUD helper (`lib/preferences.ts`)
+- Built preferences injection into prompts (`buildPreferencesBlock()` in `prompts.ts`)
+- Updated `gemini.ts`, both API routes, ChatInterface, and DirectoryAnalyser to pass preferences
+- Created Settings page (`/settings`) with radio-group UI for all 4 dimensions
+- Added Settings link to Sidebar navigation
+- Updated Sidebar version to v0.3
+- Updated ROADMAP.md (v0.3 checkboxes ticked), CLAUDE.md, RUNBOOK.md
+
+### Key Decisions
+
+| Decision | Choice | Reasoning |
+|----------|--------|-----------|
+| Preference injection point | User prompt (not system prompt) | Keeps system prompt static, preferences dynamic per-request |
+| Storage | Supabase `user_preferences` table | One row per user, upsert on save. Consistent with v0.2 pattern. |
+| UI pattern | Radio-group cards | Visual, touch-friendly, clear descriptions for non-technical users |
+| Default tone | Gentle | Matches Seraphina's core personality, least surprising for new users |
+
+### Troubleshooting
+
+| Issue | Resolution |
+|-------|------------|
+| Preference differences hard to notice | Strengthened prompt instructions with IMPORTANT/MUST prefixes |
+| Analysis cards showing raw markdown | Added react-markdown + @tailwindcss/typography for proper rendering |
+
+### Testing Preferences (Manual QA Checklist)
+
+Use the same short input for all tests (e.g. "I'm building a task manager app for freelancers") so the only variable is the preference setting.
+
+**Tone test — run the same analysis 2x:**
+1. Set tone to **gentle** → look for: encouraging phrases, "you're on the right track", celebrating wins
+2. Set tone to **blunt** → look for: direct language, "this won't work", no pleasantries
+
+**Depth test — run the same analysis 2x:**
+1. Set depth to **beginner** → look for: analogies, plain English, no jargon
+2. Set depth to **expert** → look for: technical terms used freely, trade-off discussion
+
+**Risk test — run the same analysis 2x:**
+1. Set risk to **conservative** → look for: long Risks section, many warnings
+2. Set risk to **aggressive** → look for: short Risks section, focus on Next Steps
+
+**Architecture test — run the same analysis 2x:**
+1. Set architecture to **monolith** → look for: "keep it simple", pushback on splitting
+2. Set architecture to **api-first** → look for: service boundaries, API specs
+
+---
+
 ## Session Template
 
 Copy this for future sessions:

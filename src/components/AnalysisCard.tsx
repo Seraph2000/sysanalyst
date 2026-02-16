@@ -1,5 +1,7 @@
 'use client';
 
+import ReactMarkdown from 'react-markdown';
+
 interface AnalysisCardProps {
   title: string;
   icon: string;
@@ -13,8 +15,8 @@ export default function AnalysisCard({ title, icon, content }: AnalysisCardProps
         <span className="text-xl">{icon}</span>
         <h3 className="font-semibold text-stone-800 text-lg">{title}</h3>
       </div>
-      <div className="text-stone-600 leading-relaxed whitespace-pre-wrap text-sm">
-        {content}
+      <div className="text-stone-600 leading-relaxed text-sm prose prose-sm prose-stone max-w-none">
+        <ReactMarkdown>{content}</ReactMarkdown>
       </div>
     </div>
   );

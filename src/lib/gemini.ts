@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { SERAPHINA_SYSTEM_PROMPT, buildAnalysisPrompt, DIRECTORY_ANALYSIS_PROMPT } from './prompts';
-import { AnalysisMode, DirectoryEntry } from './types';
+import { SERAPHINA_SYSTEM_PROMPT, buildAnalysisPrompt, buildPreferencesBlock, DIRECTORY_ANALYSIS_PROMPT } from './prompts';
+import { AnalysisMode, DirectoryEntry, UserPreferences } from './types';
 
 function getClient() {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -24,7 +24,8 @@ function formatDirectoryTree(entries: DirectoryEntry[], indent = ''): string {
 
 export async function analyseInput(
   mode: AnalysisMode,
-  answers: Record<string, string>
+  answers: Record<string, string>,
+  preferences?: UserPreferences
 ): Promise<string> {
   const client = getClient();
   const model = client.getGenerativeModel({
@@ -32,14 +33,15 @@ export async function analyseInput(
     systemInstruction: SERAPHINA_SYSTEM_PROMPT,
   });
 
-  const prompt = buildAnalysisPrompt(mode, answers);
+  const prompt = buildAnalysisPrompt(mode, answers, preferences);
   const result = await model.generateContent(prompt);
   const response = result.response;
   return response.text();
 }
 
 export async function analyseDirectory(
-  tree: DirectoryEntry[]
+  tree: DirectoryEntry[],
+  preferences?: UserPreferences
 ): Promise<string> {
   const client = getClient();
   const model = client.getGenerativeModel({
@@ -48,7 +50,8 @@ export async function analyseDirectory(
   });
 
   const treeText = formatDirectoryTree(tree);
-  const prompt = `${DIRECTORY_ANALYSIS_PROMPT}
+  const prefsBlock = buildPreferencesBlock(preferences);
+  const prompt = `${DIRECTORY_ANALYSIS_PROMPT}${prefsBlock}
 
 ## User's Directory Structure
 

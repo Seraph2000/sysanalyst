@@ -41,11 +41,32 @@ export interface ConversationStep {
   answer?: string;
 }
 
+export type Tone = 'gentle' | 'crisp' | 'blunt' | 'playful';
+export type Depth = 'beginner' | 'intermediate' | 'advanced' | 'expert';
+export type RiskTolerance = 'conservative' | 'balanced' | 'aggressive';
+export type ArchitectureStyle = 'api-first' | 'agent-first' | 'modular' | 'monolith';
+
+export interface UserPreferences {
+  tone: Tone;
+  depth: Depth;
+  risk_tolerance: RiskTolerance;
+  architecture_style: ArchitectureStyle;
+}
+
+export const DEFAULT_PREFERENCES: UserPreferences = {
+  tone: 'gentle',
+  depth: 'intermediate',
+  risk_tolerance: 'balanced',
+  architecture_style: 'modular',
+};
+
 export interface AnalyseRequest {
   mode: AnalysisMode;
   answers: Record<string, string>;
+  preferences?: UserPreferences;
 }
 
 export interface DirectoryAnalyseRequest {
   tree: DirectoryEntry[];
+  preferences?: UserPreferences;
 }

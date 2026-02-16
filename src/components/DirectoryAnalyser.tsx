@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { DirectoryEntry } from '@/lib/types';
+import { useState, useEffect } from 'react';
+import { DirectoryEntry, UserPreferences } from '@/lib/types';
 import { saveDirectoryAnalysis } from '@/lib/storage';
+import { getPreferences } from '@/lib/preferences';
 import { useAuth } from './AuthProvider';
 import AnalysisOutput from './AnalysisOutput';
 
@@ -58,6 +59,13 @@ export default function DirectoryAnalyser() {
   const [isAnalysing, setIsAnalysing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [folderName, setFolderName] = useState<string>('');
+  const [preferences, setPreferences] = useState<UserPreferences | undefined>();
+
+  useEffect(() => {
+    if (user) {
+      getPreferences(user.id).then(setPreferences);
+    }
+  }, [user]);
 
   async function handlePickFolder() {
     try {
@@ -91,7 +99,7 @@ export default function DirectoryAnalyser() {
       const response = await fetch('/api/directory', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tree }),
+        body: JSON.stringify({ tree, preferences }),
       });
 
       const data = await response.json();

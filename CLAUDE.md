@@ -24,6 +24,9 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - Row Level Security (RLS) on all tables — users can only access their own data
 - Types use snake_case field names (raw_markdown, created_at) to match Supabase column conventions
 - AuthProvider wraps the entire app; AuthGuard shows login screen when unauthenticated
+- User preferences (tone, depth, risk, architecture style) stored in `user_preferences` table
+- Preferences injected into prompts per-request via `buildPreferencesBlock()` in `prompts.ts`
+- Settings page at `/settings` with radio-group UI for all 4 preference dimensions
 
 ## Seraphina's Personality
 - Calm, sovereign tone
@@ -75,10 +78,13 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - `src/lib/types.ts` — TypeScript type definitions
 - `src/lib/supabase.ts` — Supabase browser client factory
 - `src/lib/storage.ts` — Supabase CRUD operations (analyses + directory analyses)
+- `src/lib/preferences.ts` — Supabase CRUD for user preferences
 - `src/config/modes.ts` — analysis mode definitions
 - `src/components/AuthProvider.tsx` — Auth context (user, session, signOut)
 - `src/components/AuthGuard.tsx` — Login UI (magic link) + sign-out button
-- `supabase-setup.sql` — Database migration (tables + RLS policies)
+- `src/app/settings/page.tsx` — Settings page (preference radio groups)
+- `supabase-setup.sql` — Database migration v0.2 (tables + RLS policies)
+- `supabase-v0.3.sql` — Database migration v0.3 (user_preferences table)
 
 ## GitHub
 - Repo: `Seraph2000/seraphina-agent` (private)
