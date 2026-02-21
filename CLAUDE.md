@@ -11,7 +11,8 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - **LLM**: Google Gemini API (`gemini-2.5-flash`) via `@google/generative-ai` (chosen for free tier; service layer designed to swap to Claude API later)
 - **Auth & Storage**: Supabase (passwordless magic links, PostgreSQL with RLS)
 - **Supabase SDKs**: `@supabase/supabase-js` + `@supabase/ssr`
-- **Deployment**: Vercel-ready
+- **Deployment**: DigitalOcean Droplet ($6/mo) — chosen over Vercel/AWS for cost, control, and commercial use from day one
+- **Domain**: `sysanalyst.dev` (registered on Cloudflare)
 - **Language**: TypeScript
 
 ## Key Architecture Decisions
@@ -24,9 +25,12 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - Row Level Security (RLS) on all tables — users can only access their own data
 - Types use snake_case field names (raw_markdown, created_at) to match Supabase column conventions
 - AuthProvider wraps the entire app; AuthGuard shows login screen when unauthenticated
-- User preferences (tone, depth, risk, architecture style) stored in `user_preferences` table
+- User preferences (tone, depth, risk, architecture style, agent name) stored in `user_preferences` table
 - Preferences injected into prompts per-request via `buildPreferencesBlock()` in `prompts.ts`
-- Settings page at `/settings` with radio-group UI for all 4 preference dimensions
+- Settings page at `/settings` with radio-group UI for all 4 preference dimensions + agent name text input
+- Custom agent name replaces "Seraphina" across entire UI and LLM prompts (default: "Seraphina")
+- System prompt converted from static const to `buildSystemPrompt(agentName)` function
+- `useAgentName()` hook in `src/lib/hooks.ts` for components that need the name
 
 ## Seraphina's Personality
 - Calm, sovereign tone
@@ -66,9 +70,11 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 
 ## Conventions
 - British English spelling (analyse, colour, organisation)
-- Use placeholder name "Seraphina" throughout (agent name, not the founder's real product name necessarily)
+- Default agent name is "Seraphina" but user-configurable via Settings
 - Privacy-first: never access file contents, only structure
 - Keep things simple — avoid over-engineering
+- **Always create a GitHub release for each version** — tag the commit, write release notes summarising what changed. Use `gh release create vX.Y` after committing.
+- **Always commit all .md files** (CLAUDE.md, RUNBOOK.md, ROADMAP.md) so project memory transfers across machines
 
 ## Important Files
 - `ROADMAP.md` — versioned product roadmap with checkboxes
@@ -85,7 +91,16 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - `src/app/settings/page.tsx` — Settings page (preference radio groups)
 - `supabase-setup.sql` — Database migration v0.2 (tables + RLS policies)
 - `supabase-v0.3.sql` — Database migration v0.3 (user_preferences table)
+- `supabase-v0.3.1.sql` — Database migration v0.3.1 (agent_name column)
+- `src/lib/hooks.ts` — Custom hooks (`useAgentName`)
 
 ## GitHub
 - Repo: `Seraph2000/seraphina-agent` (private)
 - Remote: HTTPS via `gh auth`
+- Releases: `v0.1` (MVP), `v0.2` (auth + persistence), `v0.3` (customisation), `v0.3.1` (custom agent name + domain)
+
+## Deployment (Planned)
+- DigitalOcean Droplet ($6/mo) for hosting
+- Cloudflare DNS for `sysanalyst.dev`
+- Upgrade path: bigger droplet at ~50 users → DO App Platform/AWS at ~200+ users
+- Stripe for payments (v1.0 milestone)

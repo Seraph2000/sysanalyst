@@ -12,8 +12,16 @@ const geistSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Seraphina — Systems Analyst",
+  title: "SysAnalyst — Systems Analyst Agent",
   description: "A specialised analysis agent that brings clarity to messy MVPs and early-stage ideas.",
+  metadataBase: new URL("https://sysanalyst.dev"),
+  openGraph: {
+    title: "SysAnalyst — Systems Analyst Agent",
+    description: "Structural clarity for messy MVPs and early-stage ideas.",
+    url: "https://sysanalyst.dev",
+    siteName: "SysAnalyst",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

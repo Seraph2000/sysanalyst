@@ -162,6 +162,41 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 
 ---
 
+## Session 5 — 2026-02-21: v0.3.1 Custom Agent Name + Domain + Deployment Planning
+
+### What Was Done
+- Implemented custom agent name feature across entire stack (11 files modified, 2 new)
+- Added `agent_name` column to `user_preferences` (migration: `supabase-v0.3.1.sql`)
+- Added `agent_name` to types, preferences CRUD, and settings UI
+- Created `useAgentName()` hook (`src/lib/hooks.ts`) for reusable name access
+- Converted static `SERAPHINA_SYSTEM_PROMPT` to `buildSystemPrompt(agentName)` function
+- Updated LLM service, both API routes, ChatInterface, DirectoryAnalyser, and Sidebar to use dynamic name
+- Updated layout.tsx metadata for `sysanalyst.dev` domain with OpenGraph tags
+- Purchased `sysanalyst.dev` domain on Cloudflare
+- Decided on DigitalOcean Droplet ($6/mo) for deployment hosting
+- Added GitHub release convention to CLAUDE.md
+- Created retroactive GitHub releases for v0.1, v0.2, v0.3
+- Created v0.3.1 release
+
+### Key Decisions
+
+| Decision | Choice | Reasoning |
+|----------|--------|-----------|
+| Hosting | DigitalOcean Droplet ($6/mo) | Cheapest option with full control, no commercial-use restrictions (unlike Vercel Hobby), predictable billing (unlike AWS) |
+| Domain registrar | Cloudflare | Owner already uses it, good DNS management, free SSL |
+| Not Vercel | Hobby tier restricts commercial use; Pro is $20/mo | Need Stripe paywall from day one, can't use free tier commercially |
+| Not AWS | Unpredictable billing, overwhelming dashboard | Overkill for current scale, DigitalOcean simpler |
+| Upgrade path | Bigger droplet → DO App Platform → AWS | Migrate when hitting ~200+ concurrent users or ~£1-2k MRR |
+| GitHub releases | Tag every version with `gh release create` | Provides clear version history, makes it easy to roll back, professional habit |
+
+### Troubleshooting
+
+| Issue | Resolution |
+|-------|------------|
+| `body` variable scoped inside `try` block, not accessible in `catch` | Moved `agentName` to `let` declaration before `try` block |
+
+---
+
 ## Session Template
 
 Copy this for future sessions:

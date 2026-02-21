@@ -5,7 +5,7 @@ export async function getPreferences(userId: string): Promise<UserPreferences> {
   const supabase = createClient();
   const { data, error } = await supabase
     .from('user_preferences')
-    .select('tone, depth, risk_tolerance, architecture_style')
+    .select('tone, depth, risk_tolerance, architecture_style, agent_name')
     .eq('user_id', userId)
     .single();
 
@@ -18,6 +18,7 @@ export async function getPreferences(userId: string): Promise<UserPreferences> {
     depth: data.depth,
     risk_tolerance: data.risk_tolerance,
     architecture_style: data.architecture_style,
+    agent_name: data.agent_name ?? 'Seraphina',
   };
 }
 
@@ -32,6 +33,7 @@ export async function savePreferences(userId: string, prefs: UserPreferences): P
         depth: prefs.depth,
         risk_tolerance: prefs.risk_tolerance,
         architecture_style: prefs.architecture_style,
+        agent_name: prefs.agent_name,
         updated_at: new Date().toISOString(),
       },
       { onConflict: 'user_id' }

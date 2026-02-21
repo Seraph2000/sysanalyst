@@ -3,9 +3,11 @@ import { analyseDirectory } from '@/lib/gemini';
 import { DirectoryAnalyseRequest } from '@/lib/types';
 
 export async function POST(request: NextRequest) {
+  let agentName = 'Seraphina';
   try {
     const body: DirectoryAnalyseRequest = await request.json();
     const { tree, preferences } = body;
+    agentName = preferences?.agent_name ?? 'Seraphina';
 
     if (!tree || !Array.isArray(tree)) {
       return NextResponse.json(
@@ -14,13 +16,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await analyseDirectory(tree, preferences);
+    const result = await analyseDirectory(tree, preferences, agentName);
     return NextResponse.json({ result });
   } catch (error) {
     console.error('Directory analysis error:', error);
     const isRateLimit = error instanceof Error && (error.message.includes('429') || error.message.includes('Too Many Requests'));
     const message = isRateLimit
-      ? 'Seraphina needs a moment to recharge. Please wait about 60 seconds and try again.'
+      ? `${agentName} needs a moment to recharge. Please wait about 60 seconds and try again.`
       : error instanceof Error ? error.message : 'Directory analysis failed';
     return NextResponse.json({ error: message }, { status: isRateLimit ? 429 : 500 });
   }

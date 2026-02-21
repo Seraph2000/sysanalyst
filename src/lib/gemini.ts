@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { SERAPHINA_SYSTEM_PROMPT, buildAnalysisPrompt, buildPreferencesBlock, DIRECTORY_ANALYSIS_PROMPT } from './prompts';
+import { buildSystemPrompt, buildAnalysisPrompt, buildPreferencesBlock, DIRECTORY_ANALYSIS_PROMPT } from './prompts';
 import { AnalysisMode, DirectoryEntry, UserPreferences } from './types';
 
 function getClient() {
@@ -25,12 +25,13 @@ function formatDirectoryTree(entries: DirectoryEntry[], indent = ''): string {
 export async function analyseInput(
   mode: AnalysisMode,
   answers: Record<string, string>,
-  preferences?: UserPreferences
+  preferences?: UserPreferences,
+  agentName?: string
 ): Promise<string> {
   const client = getClient();
   const model = client.getGenerativeModel({
     model: 'gemini-2.5-flash',
-    systemInstruction: SERAPHINA_SYSTEM_PROMPT,
+    systemInstruction: buildSystemPrompt(agentName),
   });
 
   const prompt = buildAnalysisPrompt(mode, answers, preferences);
@@ -41,12 +42,13 @@ export async function analyseInput(
 
 export async function analyseDirectory(
   tree: DirectoryEntry[],
-  preferences?: UserPreferences
+  preferences?: UserPreferences,
+  agentName?: string
 ): Promise<string> {
   const client = getClient();
   const model = client.getGenerativeModel({
     model: 'gemini-2.5-flash',
-    systemInstruction: SERAPHINA_SYSTEM_PROMPT,
+    systemInstruction: buildSystemPrompt(agentName),
   });
 
   const treeText = formatDirectoryTree(tree);

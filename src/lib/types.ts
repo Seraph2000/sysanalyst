@@ -51,6 +51,7 @@ export interface UserPreferences {
   depth: Depth;
   risk_tolerance: RiskTolerance;
   architecture_style: ArchitectureStyle;
+  agent_name: string;
 }
 
 export const DEFAULT_PREFERENCES: UserPreferences = {
@@ -58,6 +59,7 @@ export const DEFAULT_PREFERENCES: UserPreferences = {
   depth: 'intermediate',
   risk_tolerance: 'balanced',
   architecture_style: 'modular',
+  agent_name: 'Seraphina',
 };
 
 export interface AnalyseRequest {

@@ -5,6 +5,7 @@ import { DirectoryEntry, UserPreferences } from '@/lib/types';
 import { saveDirectoryAnalysis } from '@/lib/storage';
 import { getPreferences } from '@/lib/preferences';
 import { useAuth } from './AuthProvider';
+import { useAgentName } from '@/lib/hooks';
 import AnalysisOutput from './AnalysisOutput';
 
 async function readDirectoryRecursive(
@@ -54,6 +55,7 @@ function renderTree(entries: DirectoryEntry[], indent = 0): React.ReactNode {
 
 export default function DirectoryAnalyser() {
   const { user } = useAuth();
+  const agentName = useAgentName();
   const [tree, setTree] = useState<DirectoryEntry[] | null>(null);
   const [analysisResult, setAnalysisResult] = useState<string | null>(null);
   const [isAnalysing, setIsAnalysing] = useState(false);
@@ -126,10 +128,10 @@ export default function DirectoryAnalyser() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-stone-800">Directory Analyser</h1>
         <p className="text-stone-500 mt-1">
-          Let Seraphina look at your folder structure and suggest improvements.
+          Let {agentName} look at your folder structure and suggest improvements.
         </p>
         <p className="text-xs text-stone-400 mt-2">
-          Only folder and file names are read. Seraphina never accesses file contents.
+          Only folder and file names are read. {agentName} never accesses file contents.
         </p>
       </div>
 
@@ -166,7 +168,7 @@ export default function DirectoryAnalyser() {
         <div className="text-center py-12 space-y-4">
           <div className="inline-flex items-center gap-3 text-stone-500">
             <div className="w-5 h-5 border-2 border-violet-300 border-t-violet-600 rounded-full animate-spin" />
-            <span>Seraphina is reviewing your folder structure...</span>
+            <span>{agentName} is reviewing your folder structure...</span>
           </div>
         </div>
       )}

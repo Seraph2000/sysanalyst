@@ -130,11 +130,25 @@ export default function SettingsPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-stone-800">Settings</h1>
         <p className="text-stone-500 mt-1">
-          Customise how Seraphina communicates and analyses.
+          Customise how {prefs.agent_name} communicates and analyses.
         </p>
       </div>
 
       <div className="space-y-8">
+        {/* Agent Name */}
+        <div className="space-y-3">
+          <h3 className="text-sm font-semibold text-stone-700 uppercase tracking-wide">Agent Name</h3>
+          <p className="text-xs text-stone-400">Give your analyst a name</p>
+          <input
+            type="text"
+            value={prefs.agent_name}
+            onChange={(e) => setPrefs({ ...prefs, agent_name: e.target.value })}
+            placeholder="e.g. Atlas, Nova, Sage..."
+            maxLength={30}
+            className="w-full sm:w-72 p-3 border-2 border-stone-200 rounded-xl text-stone-700 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-violet-300"
+          />
+        </div>
+
         <RadioGroup
           label="Tone"
           options={TONE_OPTIONS}

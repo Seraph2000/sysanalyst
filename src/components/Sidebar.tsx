@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAgentName } from '@/lib/hooks';
 
 const NAV_ITEMS = [
   { href: '/chat', label: 'New Analysis', icon: '💬' },
@@ -12,12 +13,13 @@ const NAV_ITEMS = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const agentName = useAgentName();
 
   return (
     <aside className="w-64 bg-stone-50 border-r border-stone-200 min-h-screen p-6 flex flex-col">
       {/* Logo */}
       <Link href="/" className="mb-8">
-        <h1 className="text-xl font-bold text-stone-800">Seraphina</h1>
+        <h1 className="text-xl font-bold text-stone-800">{agentName}</h1>
         <p className="text-xs text-stone-400 mt-0.5">Systems Analyst</p>
       </Link>
 

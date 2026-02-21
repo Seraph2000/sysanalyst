@@ -6,11 +6,13 @@ import { getModeConfig } from '@/config/modes';
 import { saveAnalysis } from '@/lib/storage';
 import { getPreferences } from '@/lib/preferences';
 import { useAuth } from './AuthProvider';
+import { useAgentName } from '@/lib/hooks';
 import ModeSelector from './ModeSelector';
 import AnalysisOutput from './AnalysisOutput';
 
 export default function ChatInterface() {
   const { user } = useAuth();
+  const agentName = useAgentName();
   const [mode, setMode] = useState<AnalysisMode>('analyse-mvp');
   const [currentStep, setCurrentStep] = useState(-1);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -104,7 +106,7 @@ export default function ChatInterface() {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-stone-800">Seraphina</h1>
+        <h1 className="text-3xl font-bold text-stone-800">{agentName}</h1>
         <p className="text-stone-500 mt-1">Your Systems Analyst</p>
       </div>
 
@@ -134,7 +136,7 @@ export default function ChatInterface() {
             <div key={question} className="space-y-2">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-violet-600 text-sm font-medium">S</span>
+                  <span className="text-violet-600 text-sm font-medium">{agentName.charAt(0)}</span>
                 </div>
                 <p className="text-stone-700 font-medium pt-1">{question}</p>
               </div>
@@ -185,7 +187,7 @@ export default function ChatInterface() {
         <div className="text-center py-16 space-y-4">
           <div className="inline-flex items-center gap-3 text-stone-500">
             <div className="w-5 h-5 border-2 border-violet-300 border-t-violet-600 rounded-full animate-spin" />
-            <span>Seraphina is analysing your input...</span>
+            <span>{agentName} is analysing your input...</span>
           </div>
           <p className="text-sm text-stone-400">This usually takes 10-20 seconds.</p>
         </div>
