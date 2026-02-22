@@ -231,6 +231,30 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 
 ---
 
+## Session 7 — 2026-02-22: v0.4.1 Bug fixes + Pre-launch Planning
+
+### What Was Done
+- Fixed settings save bug: `agent_name` column was missing from `user_preferences` table — ran `supabase-v0.3.1.sql` migration
+- Fixed sidebar not updating after agent name save — added `router.refresh()` after successful save
+- Identified pre-launch checklist: deployment, landing page, Google OAuth app verification
+- Noted Google Drive `drive.readonly` scope may require Google security review (4-6 weeks)
+
+### Key Decisions
+
+| Decision | Choice | Reasoning |
+|----------|--------|-----------|
+| Sidebar refresh after save | `router.refresh()` after 1s | Simplest fix without global state refactor |
+| Pre-launch order | Deploy → landing page → Google verification → launch | Can't onboard users without deployment; Google review runs in parallel |
+
+### Troubleshooting
+
+| Issue | Resolution |
+|-------|------------|
+| Settings save failing silently | `agent_name` column missing from Supabase — v0.3.1 migration not run on this project |
+| Sidebar not updating after name change | `useAgentName` only fetches on mount — fixed with `router.refresh()` post-save |
+
+---
+
 ## Session Template
 
 Copy this for future sessions:

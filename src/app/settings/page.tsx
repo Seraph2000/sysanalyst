@@ -148,7 +148,10 @@ export default function SettingsPage() {
     try {
       await savePreferences(user.id, prefs);
       setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
+      setTimeout(() => {
+        setSaved(false);
+        router.refresh();
+      }, 1000);
     } catch (err) {
       console.error('Failed to save preferences:', err);
     } finally {

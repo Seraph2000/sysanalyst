@@ -77,6 +77,8 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - **Always commit all .md files** (CLAUDE.md, RUNBOOK.md, ROADMAP.md) so project memory transfers across machines
 - **Dependency hygiene**: run `npm audit` before each deployment. Fix high/critical vulnerabilities in runtime dependencies before going live. Dev-only vulnerabilities (build tools, bundlers) can be deferred but should be tracked.
 - **Stale cache errors**: if the app throws unexpected errors after env or dependency changes, delete `.next` and restart the dev server (`rm -rf .next && npm run dev`).
+- **Google OAuth verification**: `drive.readonly` is a sensitive scope — Google may require a security review (4-6 weeks) before the app can be used by the public. Start the verification process early, in parallel with deployment.
+- **Supabase migrations**: always run all migration files in order when setting up a new environment (`supabase-setup.sql` → `supabase-v0.3.sql` → `supabase-v0.3.1.sql` → `supabase-v0.4.sql`).
 
 ## Important Files
 - `ROADMAP.md` — versioned product roadmap with checkboxes

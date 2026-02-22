@@ -83,6 +83,13 @@
 - [ ]Basic deployment runbook documented
 - [ ]Run `npm audit` and resolve all high/critical runtime vulnerabilities before go-live
 
+### Pre-Launch Checklist
+- [ ]Landing page (`/`) with value proposition and sign-up CTA
+- [ ]Google OAuth app verification submitted (allow 4-6 weeks for sensitive scope review)
+- [ ]Supabase magic link email template customised
+- [ ]Favicon and browser metadata confirmed
+- [ ]Basic error boundaries in place
+
 ### SEO Foundation
 - [ ]Landing page (`/`) — copywriting, value proposition, hero section
 - [ ]Meta tags, Open Graph, Twitter Card across all pages
