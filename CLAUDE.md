@@ -75,6 +75,8 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - Keep things simple — avoid over-engineering
 - **Always create a GitHub release for each version** — tag the commit, write release notes summarising what changed. Use `gh release create vX.Y` after committing.
 - **Always commit all .md files** (CLAUDE.md, RUNBOOK.md, ROADMAP.md) so project memory transfers across machines
+- **Dependency hygiene**: run `npm audit` before each deployment. Fix high/critical vulnerabilities in runtime dependencies before going live. Dev-only vulnerabilities (build tools, bundlers) can be deferred but should be tracked.
+- **Stale cache errors**: if the app throws unexpected errors after env or dependency changes, delete `.next` and restart the dev server (`rm -rf .next && npm run dev`).
 
 ## Important Files
 - `ROADMAP.md` — versioned product roadmap with checkboxes

@@ -60,14 +60,56 @@
 
 ---
 
-## v0.4 — Cloud Storage Integration
+## v0.4 — Google Drive Integration ✓
 
-- [ ]Google Drive connection (OAuth)
-- [ ]Dropbox connection (OAuth)
-- [ ]OneDrive connection (OAuth)
-- [ ]Analyse cloud folder structures
-- [ ]Suggest reorganisation across cloud storage
-- [ ]Privacy controls and permission management
+- [x]Google Cloud Console project + OAuth 2.0 credentials
+- [x]OAuth consent screen and Drive read-only scope
+- [x]Connect/disconnect Google Drive from Settings page
+- [x]OAuth token storage in Supabase (encrypted)
+- [x]List top-level folder structure via Drive API (names only, no file contents)
+- [x]Pass folder structure to Seraphina for analysis (same flow as local directory analyser)
+- [x]Privacy controls: clear scope explanation, easy disconnect
+
+---
+
+## v0.5 — Deployment, Domain & Marketing Foundation
+
+### DigitalOcean Deployment
+- [ ]Provision $6/mo Droplet (Ubuntu, Node 20)
+- [ ]Deploy Next.js app with PM2 process manager
+- [ ]Nginx reverse proxy + SSL (Let's Encrypt)
+- [ ]Point `sysanalyst.dev` DNS (Cloudflare) to Droplet
+- [ ]Environment variables configured securely on server
+- [ ]Basic deployment runbook documented
+- [ ]Run `npm audit` and resolve all high/critical runtime vulnerabilities before go-live
+
+### SEO Foundation
+- [ ]Landing page (`/`) — copywriting, value proposition, hero section
+- [ ]Meta tags, Open Graph, Twitter Card across all pages
+- [ ]`sitemap.xml` and `robots.txt`
+- [ ]Structured data (JSON-LD) for the landing page
+- [ ]Google Search Console setup and site verified
+- [ ]Core Web Vitals baseline measured
+
+### Bootstrap Marketing
+- [ ]Blog section (`/blog`) — static MDX posts, SEO-optimised
+- [ ]3 launch posts: what Seraphina does, who it's for, how to use it
+- [ ]Social proof placeholder (testimonials section, ready for real quotes)
+- [ ]"Share your analysis" feature — shareable link or screenshot export
+- [ ]Submit to relevant directories (Product Hunt, Indie Hackers, etc.)
+- [ ]Email capture for waitlist / early access (pre-monetisation)
+
+---
+
+## v0.6 — UI Redesign: "Hot Off the Press"
+
+- [ ]Design direction: inky, industrial, editorial — newspaper-press aesthetic
+- [ ]Typographic hierarchy with editorial fonts (serif headline + mono body)
+- [ ]Dark ink palette with textured or high-contrast accents
+- [ ]Analysis output cards restyled as editorial "press sheets"
+- [ ]Landing page redesigned to match new aesthetic
+- [ ]Consistent component library (buttons, cards, inputs) in new style
+- [ ]Mobile-responsive polish across all pages
 
 ---
 
@@ -123,6 +165,11 @@
 - [ ]Webhook integrations
 - [ ]CI/CD pipeline integration
 - [ ]Custom analysis endpoints
+
+### Additional Cloud Storage (post v0.4)
+- [ ]Dropbox connection (OAuth) — folder structure analysis
+- [ ]OneDrive connection (OAuth) — folder structure analysis
+- [ ]Cross-provider reorganisation suggestions
 
 ### Integrations
 - [ ]Notion integration

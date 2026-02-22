@@ -197,6 +197,40 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 
 ---
 
+## Session 6 — 2026-02-22: v0.4 Google Drive Integration + Roadmap Update
+
+### What Was Done
+- Updated ROADMAP.md: v0.4 scoped to Google Drive only; added v0.5 (deployment + SEO/marketing); added v0.6 (UI redesign — "hot off the press" aesthetic); Dropbox/OneDrive moved to Future
+- Created dedicated Google business account (`<PROJECT_GOOGLE_ACCOUNT>`) for Cloud Console
+- Set up Google Cloud Console project (`sysanalyst-agent`), enabled Drive API, configured OAuth consent screen with `drive.readonly` scope
+- Created OAuth 2.0 credentials (Client ID + Secret)
+- Built full Google Drive integration: OAuth flow, token storage, folder tree fetching, analysis, disconnect
+- Created `supabase-v0.4.sql` migration (google_drive_tokens table + RLS)
+- All features tested and confirmed working end to end (including on a dense Drive structure)
+- Added dependency hygiene and stale cache conventions to CLAUDE.md
+- Added `npm audit` pre-deployment step to ROADMAP.md v0.5
+
+### Key Decisions
+
+| Decision | Choice | Reasoning |
+|----------|--------|-----------|
+| Google Drive only for v0.4 | Deferred Dropbox/OneDrive | Ship one integration well; others can follow |
+| SEO/marketing at v0.5 | Before monetisation | Build traffic before the paywall goes live |
+| UI redesign at v0.6 | After deployment | Ship first, redesign second |
+| Tokens stored in Supabase | `google_drive_tokens` table with RLS | Consistent with existing storage pattern |
+| All Drive API calls server-side | API routes only | Client never sees raw tokens |
+
+### Troubleshooting
+
+| Issue | Resolution |
+|-------|------------|
+| `.env.local` not found on new laptop | File not committed (gitignored) — must be recreated manually on each machine |
+| `EXT_PUBLIC_SUPABASE_URL` typo | Missing `N` from `NEXT_` prefix — spotted by reading the file |
+| Drive API 403 error after OAuth | Google Drive API wasn't enabled in Cloud Console — enabled via Library |
+| Stale cache errors | `rm -rf .next && npm run dev` |
+
+---
+
 ## Session Template
 
 Copy this for future sessions:
