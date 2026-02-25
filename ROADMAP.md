@@ -89,6 +89,10 @@
 - [ ]Supabase magic link email template customised
 - [ ]Favicon and browser metadata confirmed
 - [ ]Basic error boundaries in place
+- [ ]Privacy Policy page (`/privacy`) — GDPR compliant, covers email, analyses, Google Drive connection (use Termly or GetTerms)
+- [ ]Terms of Service page (`/terms`)
+- [ ]Cookie notice banner (Supabase sets auth cookies)
+- [ ]Legal links in landing page footer
 
 ### SEO Foundation
 - [ ]Landing page (`/`) — copywriting, value proposition, hero section
