@@ -110,12 +110,24 @@
 
 ## v0.6 — UI Redesign: "Hot Off the Press"
 
-- [ ]Design direction: inky, industrial, editorial — newspaper-press aesthetic
-- [ ]Typographic hierarchy with editorial fonts (serif headline + mono body)
-- [ ]Dark ink palette with textured or high-contrast accents
-- [ ]Analysis output cards restyled as editorial "press sheets"
-- [ ]Landing page redesigned to match new aesthetic
-- [ ]Consistent component library (buttons, cards, inputs) in new style
+### Positioning
+- Deliberately anti-Silicon-Valley — gritty, real, directional
+- Target: founders who think in systems, outside the VC/startup hype scene
+- Aesthetic inspired by: worn stencil arrows on wet tarmac, newspaper press, industrial signage
+
+### Design Language
+- [ ]Dark tarmac background (`#0D0D0D`) with cream/newsprint content (`#F2EDE4`, `#C4B89A`)
+- [ ]Typographic hierarchy: serif headlines (Georgia/Playfair) + monospace body (Space Mono)
+- [ ]Hard offset borders instead of drop shadows — misregistered print feel
+- [ ]Worn arrow motif as brand element — logo mark, CTAs, dividers
+- [ ]Subtle grain/noise texture overlay on backgrounds
+- [ ]No gradients, no rounded pill buttons — flat, stamped, deliberate
+
+### Pages
+- [ ]Landing page prototype built (v0.4.1) — refine and polish
+- [ ]App shell (sidebar, nav) restyled to match
+- [ ]Analysis output cards as "press sheets"
+- [ ]Settings and Dashboard restyled
 - [ ]Mobile-responsive polish across all pages
 
 ---

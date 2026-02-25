@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import AuthProvider from "@/components/AuthProvider";
 import AuthGuard from "@/components/AuthGuard";
-import Sidebar from "@/components/Sidebar";
+import ConditionalLayout from "@/components/ConditionalLayout";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,12 +34,9 @@ export default function RootLayout({
       <body className={`${geistSans.variable} font-sans antialiased`}>
         <AuthProvider>
           <AuthGuard>
-            <div className="flex min-h-screen">
-              <Sidebar />
-              <main className="flex-1 p-8 overflow-y-auto">
-                {children}
-              </main>
-            </div>
+            <ConditionalLayout>
+              {children}
+            </ConditionalLayout>
           </AuthGuard>
         </AuthProvider>
       </body>

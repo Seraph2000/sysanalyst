@@ -1,11 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useAuth } from './AuthProvider';
 import { createClient } from '@/lib/supabase';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const { user, loading, signOut } = useAuth();
+  const pathname = usePathname();
+
+  // Landing page is public — no auth required
+  if (pathname === '/') return <>{children}</>;
+
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
