@@ -75,12 +75,12 @@
 ## v0.5 — Deployment, Domain & Marketing Foundation
 
 ### DigitalOcean Deployment
-- [ ]Provision $6/mo Droplet (Ubuntu, Node 20)
+- [x]Provision $6/mo Droplet (Ubuntu, Node 20)
 - [ ]Deploy Next.js app with PM2 process manager
 - [ ]Nginx reverse proxy + SSL (Let's Encrypt)
 - [ ]Point `sysanalyst.dev` DNS (Cloudflare) to Droplet
-- [ ]Environment variables configured securely on server
-- [ ]Basic deployment runbook documented
+- [x]Environment variables configured securely on server
+- [x]Basic deployment runbook documented
 - [ ]Run `npm audit` and resolve all high/critical runtime vulnerabilities before go-live
 
 ### Pre-Launch Checklist
@@ -133,6 +133,9 @@
 - [ ]Analysis output cards as "press sheets"
 - [ ]Settings and Dashboard restyled
 - [ ]Mobile-responsive polish across all pages
+- [ ]Favicon — muddy tyre mark (stamp/imprint aesthetic, works at 16px and 32px)
+- [ ]Brand icon suite — favicon, OG image, apple touch icon
+- [ ]Unified branding across all tools / future products (sysanalyst.dev as the brand home)
 
 ---
 

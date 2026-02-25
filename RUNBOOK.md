@@ -145,20 +145,20 @@ A running log of work done, decisions made, and issues encountered during develo
 Use the same short input for all tests (e.g. "I'm building a task manager app for freelancers") so the only variable is the preference setting.
 
 **Tone test — run the same analysis 2x:**
-1. Set tone to **gentle** → look for: encouraging phrases, "you're on the right track", celebrating wins
-2. Set tone to **blunt** → look for: direct language, "this won't work", no pleasantries
+1. Set tone to **gentle** -> look for: encouraging phrases, "you're on the right track", celebrating wins
+2. Set tone to **blunt** -> look for: direct language, "this won't work", no pleasantries
 
 **Depth test — run the same analysis 2x:**
-1. Set depth to **beginner** → look for: analogies, plain English, no jargon
-2. Set depth to **expert** → look for: technical terms used freely, trade-off discussion
+1. Set depth to **beginner** -> look for: analogies, plain English, no jargon
+2. Set depth to **expert** -> look for: technical terms used freely, trade-off discussion
 
 **Risk test — run the same analysis 2x:**
-1. Set risk to **conservative** → look for: long Risks section, many warnings
-2. Set risk to **aggressive** → look for: short Risks section, focus on Next Steps
+1. Set risk to **conservative** -> look for: long Risks section, many warnings
+2. Set risk to **aggressive** -> look for: short Risks section, focus on Next Steps
 
 **Architecture test — run the same analysis 2x:**
-1. Set architecture to **monolith** → look for: "keep it simple", pushback on splitting
-2. Set architecture to **api-first** → look for: service boundaries, API specs
+1. Set architecture to **monolith** -> look for: "keep it simple", pushback on splitting
+2. Set architecture to **api-first** -> look for: service boundaries, API specs
 
 ---
 
@@ -186,7 +186,7 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 | Domain registrar | Cloudflare | Owner already uses it, good DNS management, free SSL |
 | Not Vercel | Hobby tier restricts commercial use; Pro is $20/mo | Need Stripe paywall from day one, can't use free tier commercially |
 | Not AWS | Unpredictable billing, overwhelming dashboard | Overkill for current scale, DigitalOcean simpler |
-| Upgrade path | Bigger droplet → DO App Platform → AWS | Migrate when hitting ~200+ concurrent users or ~£1-2k MRR |
+| Upgrade path | Bigger droplet -> DO App Platform -> AWS | Migrate when hitting ~200+ concurrent users or ~1-2k MRR |
 | GitHub releases | Tag every version with `gh release create` | Provides clear version history, makes it easy to roll back, professional habit |
 
 ### Troubleshooting
@@ -200,7 +200,7 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 ## Session 6 — 2026-02-22: v0.4 Google Drive Integration + Roadmap Update
 
 ### What Was Done
-- Updated ROADMAP.md: v0.4 scoped to Google Drive only; added v0.5 (deployment + SEO/marketing); added v0.6 (UI redesign — "hot off the press" aesthetic); Dropbox/OneDrive moved to Future
+- Updated ROADMAP.md: v0.4 scoped to Google Drive only; added v0.5 (deployment + SEO/marketing); added v0.6 (UI redesign); Dropbox/OneDrive moved to Future
 - Created dedicated Google business account (`<PROJECT_GOOGLE_ACCOUNT>`) for Cloud Console
 - Set up Google Cloud Console project (`sysanalyst-agent`), enabled Drive API, configured OAuth consent screen with `drive.readonly` scope
 - Created OAuth 2.0 credentials (Client ID + Secret)
@@ -224,9 +224,9 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 
 | Issue | Resolution |
 |-------|------------|
-| `.env.local` not found on new laptop | File not committed (gitignored) — must be recreated manually on each machine |
-| `EXT_PUBLIC_SUPABASE_URL` typo | Missing `N` from `NEXT_` prefix — spotted by reading the file |
-| Drive API 403 error after OAuth | Google Drive API wasn't enabled in Cloud Console — enabled via Library |
+| `.env.local` not found on new laptop | File not committed (gitignored) -- must be recreated manually on each machine |
+| `EXT_PUBLIC_SUPABASE_URL` typo | Missing `N` from `NEXT_` prefix -- spotted by reading the file |
+| Drive API 403 error after OAuth | Google Drive API wasn't enabled in Cloud Console -- enabled via Library |
 | Stale cache errors | `rm -rf .next && npm run dev` |
 
 ---
@@ -234,8 +234,8 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 ## Session 7 — 2026-02-22: v0.4.1 Bug fixes + Pre-launch Planning
 
 ### What Was Done
-- Fixed settings save bug: `agent_name` column was missing from `user_preferences` table — ran `supabase-v0.3.1.sql` migration
-- Fixed sidebar not updating after agent name save — added `router.refresh()` after successful save
+- Fixed settings save bug: `agent_name` column was missing from `user_preferences` table -- ran `supabase-v0.3.1.sql` migration
+- Fixed sidebar not updating after agent name save -- added `router.refresh()` after successful save
 - Identified pre-launch checklist: deployment, landing page, Google OAuth app verification
 - Noted Google Drive `drive.readonly` scope may require Google security review (4-6 weeks)
 
@@ -244,14 +244,99 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 | Decision | Choice | Reasoning |
 |----------|--------|-----------|
 | Sidebar refresh after save | `router.refresh()` after 1s | Simplest fix without global state refactor |
-| Pre-launch order | Deploy → landing page → Google verification → launch | Can't onboard users without deployment; Google review runs in parallel |
+| Pre-launch order | Deploy -> landing page -> Google verification -> launch | Can't onboard users without deployment; Google review runs in parallel |
 
 ### Troubleshooting
 
 | Issue | Resolution |
 |-------|------------|
-| Settings save failing silently | `agent_name` column missing from Supabase — v0.3.1 migration not run on this project |
-| Sidebar not updating after name change | `useAgentName` only fetches on mount — fixed with `router.refresh()` post-save |
+| Settings save failing silently | `agent_name` column missing from Supabase -- v0.3.1 migration not run on this project |
+| Sidebar not updating after name change | `useAgentName` only fetches on mount -- fixed with `router.refresh()` post-save |
+
+---
+
+## Session 8 — 2026-02-25: v0.5 DigitalOcean Deployment
+
+### What Was Done
+- Fixed two ESLint build errors blocking `npm run build`:
+  - `route.ts`: split destructuring -- `refresh_token` and `expires_at` are never reassigned, changed to `const`; `access_token` kept as `let` (reassigned on token refresh)
+  - `AuthGuard.tsx`: moved all `useState` hooks above the early return for `/` (React hooks rules-of-hooks violation)
+- Provisioned DigitalOcean Droplet: Ubuntu 22.04, $6/mo, London region (`lon1`), IP `<SERVER_IP>`
+- Updated server (`apt update && apt upgrade`) -- kept local `sshd_config` when prompted
+- Installed Node.js 20 via NodeSource repo, PM2 globally, Nginx
+- Created non-root deploy user `seraphina`:
+  - `adduser seraphina` + `usermod -aG sudo seraphina`
+  - Copied SSH keys: `rsync --archive --chown=seraphina:seraphina ~/.ssh /home/seraphina`
+  - Verified SSH login as `seraphina` before proceeding
+  - Disabled root SSH login (`PermitRootLogin no` in `sshd_config`)
+  - Verified root SSH is blocked
+- Authenticated GitHub CLI (`gh auth login`) as deploy user
+- Cloned repo: `gh repo clone Seraph2000/seraphina-agent`
+- Installed dependencies (`npm install`) and created `.env.local` from local copy
+
+### Next Steps (remaining v0.5 work)
+- `npm run build` on the server (after pushing ESLint fixes)
+- Start app with PM2 (`pm2 start npm --name "seraphina" -- start && pm2 save && pm2 startup`)
+- Configure Nginx reverse proxy (port 80/443 -> 3000)
+- Point `sysanalyst.dev` DNS on Cloudflare to Droplet IP `<SERVER_IP>`
+- Issue SSL certificate with Certbot (Let's Encrypt)
+
+### Key Decisions
+
+| Decision | Choice | Reasoning |
+|----------|--------|-----------|
+| Non-root deploy user | `seraphina` | Security best practice -- root SSH disabled after setup |
+| Keep local sshd_config | Local version | Custom SSH config already hardened; package version would overwrite it |
+| London region | `lon1` | Closest to target audience (UK-based founder) |
+
+### Troubleshooting
+
+| Issue | Resolution |
+|-------|------------|
+| ESLint `prefer-const` on `refresh_token`, `expires_at` | Split destructuring -- kept `access_token` as `let`, others as `const` |
+| React `rules-of-hooks` in AuthGuard | Moved all `useState` calls above the early return |
+| `sshd_config` upgrade prompt during `apt upgrade` | Chose "keep local version" -- preserves SSH hardening |
+
+---
+
+## Deployment Reference
+
+### Server Details
+- **Provider**: DigitalOcean
+- **Droplet**: $6/mo, Ubuntu 22.04, 1 vCPU / 1GB RAM, London (`lon1`)
+- **IP**: `<SERVER_IP>`
+- **Deploy user**: `seraphina`
+- **App directory**: `~/seraphina-agent`
+- **Process manager**: PM2 (app name: `seraphina`)
+- **Web server**: Nginx (reverse proxy -> port 3000)
+- **Domain**: `sysanalyst.dev` (Cloudflare DNS)
+- **SSL**: Let's Encrypt via Certbot
+
+### Routine Deployment
+
+```bash
+ssh seraphina@<SERVER_IP>
+cd ~/seraphina-agent
+git pull
+npm install
+npm run build
+pm2 restart seraphina
+```
+
+### PM2 Commands
+
+```bash
+pm2 status              # check app is running
+pm2 logs seraphina      # tail logs
+pm2 restart seraphina   # restart after deploy
+pm2 save                # persist process list across reboots
+```
+
+### Nginx Config Location
+`/etc/nginx/sites-available/seraphina`
+
+### SSL Renewal
+Certbot auto-renews. Manual renew: `sudo certbot renew`
 
 ---
 
@@ -260,7 +345,7 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 Copy this for future sessions:
 
 ```markdown
-## Session N — YYYY-MM-DD: Title
+## Session N -- YYYY-MM-DD: Title
 
 ### What Was Done
 -

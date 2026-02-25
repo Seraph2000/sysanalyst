@@ -28,15 +28,17 @@ She is a **Systems Analyst**, not a general assistant.
 - **Frontend**: Next.js 14 (App Router) + Tailwind CSS
 - **LLM**: Google Gemini API (swappable service layer)
 - **Auth & Storage**: Supabase (passwordless magic links, PostgreSQL with RLS)
-- **Deployment**: Vercel-ready
+- **Deployment**: DigitalOcean Droplet ($6/mo) + Nginx + PM2
+- **Domain**: `sysanalyst.dev` (Cloudflare DNS + Let's Encrypt SSL)
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+
 - A Google Gemini API key ([get one free](https://makersuite.google.com/app/apikey))
 - A Supabase project ([sign up free](https://supabase.com))
+- A Google Cloud project with Drive API enabled (for Google Drive feature)
 
 ### Setup
 
@@ -54,10 +56,12 @@ She is a **Systems Analyst**, not a general assistant.
    GEMINI_API_KEY=your_key_here
    NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
    ```
-5. Run the database setup in your Supabase SQL Editor:
+5. Run the database migrations in your Supabase SQL Editor, in order:
    ```
-   Copy the contents of supabase-setup.sql and run it in Dashboard > SQL Editor
+   supabase-setup.sql → supabase-v0.3.sql → supabase-v0.3.1.sql → supabase-v0.4.sql
    ```
 6. Start the development server:
    ```bash
@@ -65,13 +69,15 @@ She is a **Systems Analyst**, not a general assistant.
    ```
 7. Open [http://localhost:3000](http://localhost:3000)
 
-## Features (MVP)
+## Features
 
 1. **Guided Conversation Analysis** — Step-by-step prompts that walk you through describing your idea
-2. **Directory Snapshot Analyser** — Let Seraphina look at your folder structure (names only) and suggest improvements
-3. **Structured Visual Output** — Analysis rendered as clear, scannable cards
-4. **Analysis Mode Selector** — Choose between "Analyse my MVP", "Clarify my idea", "What should I build next?", "Review my architecture"
-5. **Saved Analyses Dashboard** — Access your previous analyses anytime
+2. **Directory Snapshot Analyser** — Seraphina reads your folder structure (names only) and suggests improvements
+3. **Google Drive Analyser** — Connect your Drive and analyse its folder structure (OAuth, read-only)
+4. **Structured Visual Output** — Analysis rendered as clear, scannable cards
+5. **Analysis Mode Selector** — Choose between "Analyse my MVP", "Clarify my idea", "What should I build next?", "Review my architecture"
+6. **Saved Analyses Dashboard** — Access your previous analyses anytime
+7. **User Preferences** — Customise tone, depth, risk tolerance, architecture style, and agent name
 
 ## Project Structure
 
@@ -81,11 +87,49 @@ src/
 │   ├── chat/         # Guided conversation interface
 │   ├── directory/    # Directory snapshot analyser
 │   ├── dashboard/    # Saved analyses
+│   ├── settings/     # User preferences
 │   └── api/          # Backend endpoints
 ├── components/       # React components
-├── lib/              # LLM service, prompts, types, storage
+├── lib/              # LLM service, prompts, types, storage, hooks
 └── config/           # Analysis mode definitions
 ```
+
+## Deployment
+
+The app runs on a DigitalOcean Droplet ($6/mo) with Nginx as a reverse proxy and PM2 as the process manager.
+
+### Routine deployment (after first-time setup)
+
+```bash
+# SSH into the server
+ssh seraphina@<SERVER_IP>
+
+# Pull latest changes, rebuild, restart
+cd ~/seraphina-agent
+git pull
+npm install
+npm run build
+pm2 restart seraphina
+```
+
+### First-time server setup
+
+1. Provision Ubuntu 22.04 Droplet on DigitalOcean
+2. Create non-root deploy user (`adduser seraphina`), copy SSH keys, disable root SSH login
+3. Install Node.js 20 (`nodesource` repo), PM2 (`npm install -g pm2`), Nginx
+4. Authenticate GitHub CLI (`gh auth login`) and clone the repo
+5. Add `.env.local` with all environment variables
+6. Build the app (`npm run build`)
+7. Start with PM2:
+   ```bash
+   pm2 start npm --name "seraphina" -- start
+   pm2 save && pm2 startup
+   ```
+8. Configure Nginx as reverse proxy (port 80/443 → 3000)
+9. Point `sysanalyst.dev` DNS on Cloudflare to Droplet IP
+10. Issue SSL certificate with Certbot (Let's Encrypt)
+
+See [RUNBOOK.md](./RUNBOOK.md) for the full step-by-step log.
 
 ## Documentation
 

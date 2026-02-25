@@ -11,8 +11,11 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - **LLM**: Google Gemini API (`gemini-2.5-flash`) via `@google/generative-ai` (chosen for free tier; service layer designed to swap to Claude API later)
 - **Auth & Storage**: Supabase (passwordless magic links, PostgreSQL with RLS)
 - **Supabase SDKs**: `@supabase/supabase-js` + `@supabase/ssr`
-- **Deployment**: DigitalOcean Droplet ($6/mo) — chosen over Vercel/AWS for cost, control, and commercial use from day one
+- **Deployment**: DigitalOcean Droplet ($6/mo) — Ubuntu 22.04, 1 vCPU / 1GB RAM, London (`lon1`)
+- **Process Manager**: PM2 (app name: `seraphina`)
+- **Web Server**: Nginx (reverse proxy, port 80/443 -> 3000)
 - **Domain**: `sysanalyst.dev` (registered on Cloudflare)
+- **SSL**: Let's Encrypt via Certbot
 - **Language**: TypeScript
 
 ## Key Architecture Decisions
@@ -59,9 +62,11 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 ## MVP Features
 1. Guided Conversation Analysis
 2. Directory Snapshot Analyser
-3. Structured Visual Output (Cards)
-4. Analysis Mode Selector
-5. Saved Analyses Dashboard
+3. Google Drive Analyser (OAuth, read-only, folder names only)
+4. Structured Visual Output (Cards)
+5. Analysis Mode Selector
+6. Saved Analyses Dashboard
+7. User Preferences (tone, depth, risk, architecture style, agent name)
 
 ## Monetisation (Planned)
 - £9/month — unlimited analyses
@@ -79,11 +84,14 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - **Dependency hygiene**: run `npm audit` before each deployment. Fix high/critical vulnerabilities in runtime dependencies before going live. Dev-only vulnerabilities (build tools, bundlers) can be deferred but should be tracked.
 - **Stale cache errors**: if the app throws unexpected errors after env or dependency changes, delete `.next` and restart the dev server (`rm -rf .next && npm run dev`).
 - **Google OAuth verification**: `drive.readonly` is a sensitive scope — Google may require a security review (4-6 weeks) before the app can be used by the public. Start the verification process early, in parallel with deployment.
-- **Supabase migrations**: always run all migration files in order when setting up a new environment (`supabase-setup.sql` → `supabase-v0.3.sql` → `supabase-v0.3.1.sql` → `supabase-v0.4.sql`).
+- **Supabase migrations**: always run all migration files in order when setting up a new environment (`supabase-setup.sql` -> `supabase-v0.3.sql` -> `supabase-v0.3.1.sql` -> `supabase-v0.4.sql`).
+- **Server user**: always SSH as `seraphina` (non-root). Root SSH login is disabled.
+- **React hooks**: always declare all hooks before any conditional returns — violating rules-of-hooks causes build failure in production.
+- **ESLint in production build**: Next.js runs ESLint as part of `npm run build`. Fix all lint errors locally before deploying — they will block the server build.
 
 ## Important Files
 - `ROADMAP.md` — versioned product roadmap with checkboxes
-- `RUNBOOK.md` — session-by-session work log
+- `RUNBOOK.md` — session-by-session work log + deployment reference
 - `src/lib/gemini.ts` — LLM service layer
 - `src/lib/prompts.ts` — system prompts and personality
 - `src/lib/types.ts` — TypeScript type definitions
@@ -97,15 +105,31 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - `supabase-setup.sql` — Database migration v0.2 (tables + RLS policies)
 - `supabase-v0.3.sql` — Database migration v0.3 (user_preferences table)
 - `supabase-v0.3.1.sql` — Database migration v0.3.1 (agent_name column)
+- `supabase-v0.4.sql` — Database migration v0.4 (google_drive_tokens table)
 - `src/lib/hooks.ts` — Custom hooks (`useAgentName`)
 
 ## GitHub
 - Repo: `Seraph2000/seraphina-agent` (private)
 - Remote: HTTPS via `gh auth`
-- Releases: `v0.1` (MVP), `v0.2` (auth + persistence), `v0.3` (customisation), `v0.3.1` (custom agent name + domain)
+- Releases: `v0.1` (MVP), `v0.2` (auth + persistence), `v0.3` (customisation), `v0.3.1` (custom agent name + domain), `v0.4` (Google Drive), `v0.4.1` (bug fixes)
 
-## Deployment (Planned)
-- DigitalOcean Droplet ($6/mo) for hosting
-- Cloudflare DNS for `sysanalyst.dev`
-- Upgrade path: bigger droplet at ~50 users → DO App Platform/AWS at ~200+ users
-- Stripe for payments (v1.0 milestone)
+## Deployment
+- **Server**: DigitalOcean Droplet, Ubuntu 22.04, $6/mo, London (`lon1`)
+- **IP**: `<SERVER_IP>`
+- **Deploy user**: `seraphina` (non-root, sudo access)
+- **App directory**: `~/seraphina-agent`
+- **Process manager**: PM2 (app name: `seraphina`)
+- **Web server**: Nginx reverse proxy (port 80/443 -> 3000)
+- **Domain**: `sysanalyst.dev` on Cloudflare
+- **SSL**: Let's Encrypt via Certbot (auto-renews)
+- **Upgrade path**: bigger droplet at ~50 users -> DO App Platform/AWS at ~200+ users
+
+### Routine deployment
+```bash
+ssh seraphina@<SERVER_IP>
+cd ~/seraphina-agent
+git pull
+npm install
+npm run build
+pm2 restart seraphina
+```
