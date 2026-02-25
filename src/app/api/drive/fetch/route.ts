@@ -35,7 +35,8 @@ export async function GET() {
     return NextResponse.json({ error: 'Google Drive not connected' }, { status: 400 });
   }
 
-  let { access_token, refresh_token, expires_at } = tokenRow;
+  let { access_token } = tokenRow;
+  const { refresh_token, expires_at } = tokenRow;
 
   // Refresh if expired (with 5-minute buffer)
   const isExpired = new Date(expires_at).getTime() - Date.now() < 5 * 60 * 1000;
