@@ -360,3 +360,42 @@ Copy this for future sessions:
 | Issue | Resolution |
 |-------|------------|
 ```
+
+## Session 8 continued — Certbot SSL + SMTP troubleshooting
+
+### What Was Done (continued)
+- Completed all remaining v0.5 deployment steps:
+  - Built app on server (`npm run build`) after pushing ESLint fixes
+  - Started app with PM2, saved process list, registered systemd startup script
+  - Configured Nginx reverse proxy (port 80/443 -> 3000)
+  - Added A records in Cloudflare (DNS only, grey cloud) for `@` and `www` -> `<SERVER_IP>`
+  - Issued SSL certificate with Certbot (Let's Encrypt): `sudo certbot --nginx -d sysanalyst.dev -d www.sysanalyst.dev`
+  - Site confirmed live at `https://sysanalyst.dev`
+- Identified login issue: magic link redirecting to localhost instead of sysanalyst.dev
+  - Fixed Supabase Site URL: Authentication -> URL Configuration -> `https://sysanalyst.dev`
+  - Added redirect URL: `https://sysanalyst.dev/**`
+- Hit Supabase free tier email rate limit (3 emails/hour, shared across all users)
+- Set up Resend for custom SMTP to remove rate limit:
+  - Signed up at resend.com with `<PROJECT_GOOGLE_ACCOUNT>`
+  - Added and verified `sysanalyst.dev` domain (eu-west-1, auto-configured DNS via Cloudflare)
+  - Created API key (full access)
+  - Configured Supabase SMTP: host `smtp.resend.com`, port `465`, username `resend`
+  - Sender: `noreply@sysanalyst.dev` / `Seraphina`
+- SMTP connection not working -- Resend shows no incoming requests from Supabase
+- Tried port 587 -- no change
+- Next session: switch from SMTP to Resend API approach
+
+### Troubleshooting
+
+| Issue | Resolution |
+|-------|------------|
+| Magic link redirects to localhost after deployment | Updated Supabase Site URL to `https://sysanalyst.dev` and added redirect URL |
+| Supabase free tier rate limit (3 emails/hour) | Setting up Resend custom SMTP (in progress) |
+| SMTP connection failing silently | Supabase not reaching Resend -- switching to Resend API approach next session |
+| Duplicate PM2 processes | `pm2 delete all` then restart fresh |
+| Cloudflare DNS proxy must be off for Certbot | Set to DNS only (grey cloud) during cert issuance |
+
+### Next Session
+- Implement Resend API integration to bypass Supabase SMTP issues
+- Verify login works end-to-end on `https://sysanalyst.dev`
+- Commit all docs and cut v0.5 GitHub release
