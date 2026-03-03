@@ -76,9 +76,9 @@
 
 ### DigitalOcean Deployment
 - [x]Provision $6/mo Droplet (Ubuntu, Node 20)
-- [ ]Deploy Next.js app with PM2 process manager
-- [ ]Nginx reverse proxy + SSL (Let's Encrypt)
-- [ ]Point `sysanalyst.dev` DNS (Cloudflare) to Droplet
+- [x]Deploy Next.js app with PM2 process manager
+- [x]Nginx reverse proxy + SSL (Let's Encrypt)
+- [x]Point `sysanalyst.dev` DNS (Cloudflare) to Droplet
 - [x]Environment variables configured securely on server
 - [x]Basic deployment runbook documented
 - [ ]Run `npm audit` and resolve all high/critical runtime vulnerabilities before go-live
