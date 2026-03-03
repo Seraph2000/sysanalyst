@@ -11,8 +11,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Email is required' }, { status: 400 });
   }
 
-  // Derive the origin from the request URL so this works on both localhost and production
-  const origin = new URL(request.url).origin;
+  // Use NEXT_PUBLIC_SITE_URL if set (production), otherwise derive from request (local dev)
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || new URL(request.url).origin;
   const redirectTo = `${origin}/auth/callback`;
 
   // Admin client — generates the magic link without Supabase sending the email
