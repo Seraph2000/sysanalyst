@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAuth } from './AuthProvider';
-import { createClient } from '@/lib/supabase';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const { user, loading, signOut } = useAuth();
@@ -13,8 +12,8 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
 
-  // Landing page is public — no auth required
-  if (pathname === '/') return <>{children}</>;
+  // Public routes — no auth required
+  if (pathname === '/' || pathname === '/auth/callback') return <>{children}</>;
 
   if (loading) {
     return (
@@ -51,15 +50,17 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     setError(null);
 
     try {
-      const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOtp({
-        email: email.trim(),
-        options: {
-          emailRedirectTo: window.location.origin,
-        },
+      const res = await fetch('/api/auth/magic-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim(),
+          redirectTo: window.location.origin,
+        }),
       });
 
-      if (error) throw error;
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to send magic link');
       setSent(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to send magic link');
