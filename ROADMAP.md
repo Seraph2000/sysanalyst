@@ -87,8 +87,9 @@
 - [x]Landing page (`/`) with value proposition and sign-up CTA
 - [ ]Google OAuth app verification submitted (allow 4-6 weeks for sensitive scope review)
 - [ ]Supabase magic link email template customised
-- [ ]Favicon and browser metadata confirmed
-- [ ]Basic error boundaries in place
+- [x]Favicon (SVG chevron brand mark, auto-loaded by Next.js)
+- [ ]Browser metadata confirmed (Open Graph, title tags — see SEO Foundation)
+- [x]Basic error boundaries in place (`error.tsx` + `not-found.tsx`)
 - [x]Privacy Policy page (`/privacy`) — GDPR compliant, covers email, analyses, Google Drive connection
 - [x]Terms of Service page (`/terms`)
 - [ ]Set up `hello@sysanalyst.dev` and `privacy@sysanalyst.dev` via Cloudflare Email Routing (free, forwards to personal Gmail) — neither address exists yet. See RUNBOOK Email Infrastructure Reference for steps. Must exist before launch.
@@ -204,6 +205,27 @@ Supabase free tier pauses inactive projects. Long-term, replace with self-hosted
 - [ ]Move Row Level Security from Supabase RLS policies to application-layer middleware
 - [ ]Remove @supabase/supabase-js and @supabase/ssr dependencies
 - **Trigger**: do this post-launch once the product is proven, not before
+
+### Observability & Monitoring
+
+#### Traffic Analytics (add at launch)
+- **Recommended**: Plausible Analytics ($9/mo) — privacy-first, no cookies, GDPR compliant, no consent banner needed, lightweight script
+- **Alternative**: Umami (self-hosted, free) — same privacy principles but requires running on the droplet
+- **Do NOT use**: Google Analytics — uses tracking cookies, conflicts with "no tracking" promise in cookie banner
+- [ ]Sign up for Plausible → add script tag to `layout.tsx` → verify data flowing
+
+#### Error Monitoring (add at launch)
+- **Recommended**: Sentry (free tier — 5k errors/month) — catches unhandled exceptions, stack traces, user context
+- [ ]Create Sentry project → install `@sentry/nextjs` → add DSN to `.env.local` → verify errors reporting
+
+#### Application Logging (post-launch / at scale)
+- **Current**: PM2 logs (`pm2 logs seraphina`) — sufficient for early stage
+- **Near-term**: Structured logging with a lightweight library (e.g. `pino`) — write JSON logs, easier to query
+- **At scale**: Ship logs to a managed platform
+  - **Splunk** — enterprise-grade, powerful query language (SPL), best for compliance-heavy environments
+  - **Datadog** — more developer-friendly than Splunk, unified logs + metrics + traces, $15+/mo
+  - **Grafana + Loki** — open source, self-hostable, strong community
+  - **Trigger**: when PM2 logs become insufficient (~Tier 3 scale) or a paying enterprise customer requires audit logs
 
 ### Scaling Plan
 
