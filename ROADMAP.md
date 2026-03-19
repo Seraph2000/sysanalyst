@@ -216,6 +216,31 @@
 
 ---
 
+## Funding Strategy
+
+### Recommended approach: Bootstrap first
+
+- Infrastructure cost is negligible ($6/mo droplet, free-tier APIs)
+- Revenue model is simple and proven — even 50 Standard users = £450/mo; 200 = £1,800/mo with near-zero COGS
+- Target market (founders/builders) discovers tools organically — Product Hunt, Indie Hackers, X — no ad spend needed to reach them
+- Solo operator: no team to pay, no burn rate pressure
+- Bootstrapping means 100% ownership and building on your own terms
+
+### When to reconsider outside funding
+
+- Strong early traction + want to hire to accelerate
+- Enterprise/team features (v2.0+) require serious sales motion
+- Strategic investor (e.g. Entrepreneur First, founder-focused fund) brings network, not just capital
+- Organic growth past ~£5k MRR and a clear case for acceleration
+
+### Why seed/VC doesn't fit right now
+
+- VC requires 100x returns — needs a much larger addressable market
+- Seed funding introduces growth metrics and investor timelines before product-market fit is established
+- The right scale for this product is indie SaaS profitability, not unicorn trajectory
+
+---
+
 ## Design Principles (All Versions)
 
 - **Single-role identity**: Seraphina is a Systems Analyst, not a general assistant
