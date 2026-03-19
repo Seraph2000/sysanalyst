@@ -340,6 +340,33 @@ Certbot auto-renews. Manual renew: `sudo certbot renew`
 
 ---
 
+## Session 9 — 2026-03-19: v0.5 Completion + npm audit
+
+### What Was Done
+- Confirmed Resend API integration working and login verified end-to-end on `https://sysanalyst.dev`
+- Confirmed v0.5 GitHub release cut
+- Ran `npm audit` — 7 vulnerabilities found (1 moderate, 6 high)
+- Ran `npm audit fix` — cleared ajv, flatted, minimatch (all dev-only/build tooling)
+- Assessed remaining 4 high vulnerabilities:
+  - `glob` in `eslint-config-next` — dev-only ESLint tooling, not in running server
+  - `next` 14.x CVEs (HTTP smuggling, Image Optimizer DoS, RSC DoS, disk cache) — not applicable: app uses no rewrites, no next/image, no remotePatterns
+- Updated `package.json` version to `0.5.0`
+- Ticked npm audit ROADMAP checkbox; added Next.js 15 upgrade note to Future section
+
+### Key Decisions
+
+| Decision | Choice | Reasoning |
+|----------|--------|-----------|
+| Don't force-upgrade Next.js to 15 | Deferred | Breaking change; affected CVEs don't apply to this app's feature set. Track in Future. |
+
+### Troubleshooting
+
+| Issue | Resolution |
+|-------|------------|
+| Node v18 engine warnings during audit fix | Local machine runs v18, server runs v20. Warnings are non-blocking; no action needed. |
+
+---
+
 ## Session Template
 
 Copy this for future sessions:

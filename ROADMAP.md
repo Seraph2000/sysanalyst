@@ -81,7 +81,7 @@
 - [x]Point `sysanalyst.dev` DNS (Cloudflare) to Droplet
 - [x]Environment variables configured securely on server
 - [x]Basic deployment runbook documented
-- [ ]Run `npm audit` and resolve all high/critical runtime vulnerabilities before go-live
+- [x]Run `npm audit` and resolve all high/critical runtime vulnerabilities before go-live
 
 ### Pre-Launch Checklist
 - [ ]Landing page (`/`) with value proposition and sign-up CTA
@@ -191,6 +191,9 @@
 - [ ]Webhook integrations
 - [ ]CI/CD pipeline integration
 - [ ]Custom analysis endpoints
+
+### Dependency Upgrades
+- [ ]Upgrade Next.js 14 → 15 (breaking change — requires React 19 + async request API migration). Currently safe to defer: rewrites, next/image, and RSC features that carry the known CVEs are not used.
 
 ### Additional Cloud Storage (post v0.4)
 - [ ]Dropbox connection (OAuth) — folder structure analysis
