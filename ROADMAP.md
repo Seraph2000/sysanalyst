@@ -127,18 +127,18 @@
 - [x]Worn arrow motif as brand element — logo mark, CTAs, dividers
 - [x]Subtle grain/noise texture overlay on backgrounds (landing page)
 - [x]No gradients, no rounded pill buttons — flat, stamped, deliberate
-- [ ]Hard offset borders instead of drop shadows — misregistered print feel (inner app pages)
-- [ ]Georgia/Playfair serif headlines across inner app pages
+- [x]Flat borders, no shadows — inner app pages use border-[#C4B89A]/10 throughout
+- [x]Georgia serif headlines across Dashboard, Settings, error/404 pages
 
 ### Pages
 - [x]Landing page — polished and live
 - [x]App shell (sidebar, nav) restyled to match
-- [ ]Analysis output cards as "press sheets"
-- [ ]Settings and Dashboard restyled
-- [ ]Mobile-responsive polish across all pages
-- [x]Favicon — SVG chevron brand mark (full tyre mark deferred to brand icon suite)
-- [ ]Brand icon suite — OG image, apple touch icon
-- [ ]Unified branding across all tools / future products (sysanalyst.dev as the brand home)
+- [x]Analysis output cards as "press sheets" — numbered, dark, gap-px grid
+- [x]Settings and Dashboard restyled
+- [ ]Mobile-responsive polish across all pages — deferred post-launch
+- [x]Favicon — SVG chevron brand mark
+- [ ]Brand icon suite — OG image, apple touch icon — deferred post-launch
+- [ ]Unified branding across all tools / future products (sysanalyst.dev as the brand home) — future
 
 ---
 
