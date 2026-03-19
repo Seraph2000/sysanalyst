@@ -56,14 +56,15 @@ export default function LandingPage() {
 
         <h1 className="text-5xl sm:text-7xl font-bold text-[#F2EDE4] leading-[1.05] tracking-tight mb-8"
           style={{ fontFamily: 'Georgia, serif' }}>
-          Clarity.<br />
-          <span className="text-[#C4B89A]">Not another</span><br />
-          dashboard.
+          It&apos;s not chaos.<br />
+          <span className="text-[#C4B89A]">It&apos;s an architecture</span><br />
+          waiting to be read.
         </h1>
 
         <p className="text-lg text-[#C4B89A]/70 max-w-xl leading-relaxed mb-12 font-mono">
-          Your MVP is a mess. Your ideas are scattered. Your folder structure is chaos.
-          SysAnalyst reads the structure — not the hype — and tells you what&apos;s actually going on.
+          SysAnalyst is a systems analyst agent. Describe your idea, connect your project
+          files, or share your Google Drive — and get structured feedback on what you&apos;re
+          actually building, what&apos;s missing, what&apos;s at risk, and exactly what to do next.
         </p>
 
         <div className="flex items-center gap-6">
@@ -88,22 +89,32 @@ export default function LandingPage() {
           <span className="text-xs tracking-[0.3em] uppercase text-[#C4B89A]/60">What it does</span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[#C4B89A]/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-[#C4B89A]/10">
           {[
             {
               number: '01',
-              title: 'Read the Structure',
-              body: 'Drop in your MVP description, idea, or folder tree. The analyst reads structure — not surface.',
+              title: 'Reveals your real intent',
+              body: 'What are you actually building? Not what you say — what the structure implies. SysAnalyst reads between the lines.',
             },
             {
               number: '02',
-              title: 'Surface the Truth',
-              body: 'Capability map, intent clarification, risk exposure, missing pieces. What\'s real. What\'s assumption.',
+              title: 'Maps the gaps',
+              body: 'Technical gaps. Logic gaps. Gaps in the idea itself. Everything that\'s needed but not yet there.',
             },
             {
               number: '03',
-              title: 'Point the Way',
-              body: 'A clear next-step sequence. No roadmap theatre. Just what to do, in order, with reasoning.',
+              title: 'Assesses your architecture',
+              body: 'One codebase or five interconnected services — identifies what\'s over-engineered, what\'s fragile, and what the simplest coherent version looks like.',
+            },
+            {
+              number: '04',
+              title: 'Sequences your next move',
+              body: 'Not a roadmap. Not a brainstorm. Three to five concrete actions, in order — specific enough to start today.',
+            },
+            {
+              number: '05',
+              title: 'Saves your thinking',
+              body: 'Every analysis is stored in your dashboard. Come back to it, build on it, watch your thinking evolve.',
             },
           ].map((item) => (
             <div key={item.number} className="bg-[#0D0D0D] p-8 border border-[#C4B89A]/10">
@@ -121,27 +132,67 @@ export default function LandingPage() {
       {/* Divider */}
       <div className="relative z-10 border-t border-[#C4B89A]/10 mx-8" />
 
-      {/* Anti-pitch */}
+      {/* How you feed it */}
+      <section className="relative z-10 px-8 py-20 max-w-5xl mx-auto">
+        <div className="mb-12 flex items-center gap-3">
+          <div className="h-px w-12 bg-[#C4B89A]/40" />
+          <span className="text-xs tracking-[0.3em] uppercase text-[#C4B89A]/60">How you feed it</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[#C4B89A]/10">
+          {[
+            {
+              number: '—',
+              title: 'Describe it',
+              body: 'Walk through a guided conversation. Tell SysAnalyst what you\'re building, who it\'s for, and where you\'re stuck.',
+            },
+            {
+              number: '—',
+              title: 'Connect your files',
+              body: 'Open your local project folder. SysAnalyst reads the structure — folder and file names only, never contents.',
+            },
+            {
+              number: '—',
+              title: 'Share your Drive',
+              body: 'Connect Google Drive via OAuth. SysAnalyst maps your folder structure and analyses how your work is organised.',
+            },
+          ].map((item) => (
+            <div key={item.title} className="bg-[#0D0D0D] p-8 border border-[#C4B89A]/10">
+              <div className="text-xs tracking-[0.3em] text-[#C4B89A]/30 mb-4">{item.number}</div>
+              <h3 className="text-[#F2EDE4] font-bold mb-3 tracking-wide"
+                style={{ fontFamily: 'Georgia, serif' }}>
+                {item.title}
+              </h3>
+              <p className="text-sm text-[#C4B89A]/60 leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="relative z-10 border-t border-[#C4B89A]/10 mx-8" />
+
+      {/* The pitch */}
       <section className="relative z-10 px-8 py-20 max-w-5xl mx-auto">
         <div className="max-w-2xl">
           <div className="mb-6 flex items-center gap-3">
             <div className="h-px w-12 bg-[#C4B89A]/40" />
-            <span className="text-xs tracking-[0.3em] uppercase text-[#C4B89A]/60">Not for everyone</span>
+            <span className="text-xs tracking-[0.3em] uppercase text-[#C4B89A]/60">Who it&apos;s for</span>
           </div>
           <p className="text-2xl text-[#F2EDE4] leading-relaxed mb-6"
             style={{ fontFamily: 'Georgia, serif' }}>
             &ldquo;Not a chatbot. Not a co-pilot. Not another AI wrapper with a gradient hero.
-            A systems analyst — the kind that reads between the lines and tells you what you&apos;re
-            actually building.&rdquo;
+            A systems analyst — the kind that reads between the lines, challenges your assumptions,
+            and tells you what you&apos;re actually building.&rdquo;
           </p>
           <div className="flex items-center gap-3 text-[#C4B89A]/40 text-xs tracking-widest uppercase">
             <Arrow />
-            <span>Built for founders who think in systems</span>
+            <span>For anyone with a system in their head that hasn&apos;t made it to paper yet</span>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
+{/* CTA */}
       <section className="relative z-10 border-t border-[#C4B89A]/10 mx-8 py-20">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
           <div>
@@ -164,7 +215,10 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-[#C4B89A]/10 px-8 py-6 flex items-center justify-between">
         <span className="text-xs text-[#C4B89A]/30 tracking-widest uppercase">sysanalyst.dev</span>
-        <span className="text-xs text-[#C4B89A]/20 tracking-wider">Clarity over complexity.</span>
+        <div className="flex items-center gap-6 text-xs text-[#C4B89A]/30 tracking-wider">
+          <Link href="/privacy" className="hover:text-[#C4B89A]/60 transition-colors">Privacy Policy</Link>
+          <Link href="/terms" className="hover:text-[#C4B89A]/60 transition-colors">Terms of Service</Link>
+        </div>
       </footer>
     </div>
   );

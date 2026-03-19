@@ -89,8 +89,9 @@
 - [ ]Supabase magic link email template customised
 - [ ]Favicon and browser metadata confirmed
 - [ ]Basic error boundaries in place
-- [ ]Privacy Policy page (`/privacy`) — GDPR compliant, covers email, analyses, Google Drive connection (use Termly or GetTerms)
-- [ ]Terms of Service page (`/terms`)
+- [x]Privacy Policy page (`/privacy`) — GDPR compliant, covers email, analyses, Google Drive connection
+- [x]Terms of Service page (`/terms`)
+- [ ]Set up `hello@sysanalyst.dev` and `privacy@sysanalyst.dev` via Cloudflare Email Routing (free, forwards to personal Gmail) — neither address exists yet. See RUNBOOK Email Infrastructure Reference for steps. Must exist before launch.
 - [ ]Cookie notice banner (Supabase sets auth cookies)
 - [ ]Legal links in landing page footer
 
@@ -191,6 +192,57 @@
 - [ ]Webhook integrations
 - [ ]CI/CD pipeline integration
 - [ ]Custom analysis endpoints
+
+### Infrastructure: Migrate off Supabase (self-hosted)
+Supabase free tier pauses inactive projects. Long-term, replace with self-hosted equivalents on DigitalOcean.
+- [ ]Upgrade droplet to $12/mo (2GB RAM) to run Postgres + Next.js comfortably
+- [ ]Install and configure PostgreSQL on the droplet
+- [ ]Migrate all tables and data from Supabase (analyses, directory_analyses, user_preferences, google_drive_tokens)
+- [ ]Replace Supabase auth with Auth.js (NextAuth) — magic links + Google OAuth
+- [ ]Rewrite AuthProvider, AuthGuard, and all API routes to use Auth.js sessions
+- [ ]Rewrite storage layer (storage.ts, preferences.ts) to use raw Postgres or a lightweight ORM
+- [ ]Move Row Level Security from Supabase RLS policies to application-layer middleware
+- [ ]Remove @supabase/supabase-js and @supabase/ssr dependencies
+- **Trigger**: do this post-launch once the product is proven, not before
+
+### Scaling Plan
+
+The current stack is intentionally minimal. Each tier below is a trigger-based upgrade — only act when the signal is clear.
+
+#### Tier 1 — Current (0–50 users)
+- Single $6/mo DigitalOcean droplet (1 vCPU / 1GB RAM)
+- Supabase free tier for database and auth
+- Gemini API free tier for LLM
+- PM2 + Nginx on one box
+- **No action needed**
+
+#### Tier 2 — Early traction (50–200 users)
+- **Trigger**: app feels slow, PM2 logs show memory pressure, or paying users complain
+- Upgrade droplet to $12–24/mo (2–4GB RAM, 2 vCPU)
+- Migrate off Supabase free tier → Supabase Pro ($25/mo) or self-hosted Postgres (see migration plan above)
+- Add basic uptime monitoring (Better Uptime or UptimeRobot — free tier)
+- Consider separating database onto its own DO droplet if memory contention is the issue
+
+#### Tier 3 — Meaningful scale (200–1,000 users)
+- **Trigger**: ~£2–5k MRR, consistent traffic, single droplet hitting limits
+- Move to DigitalOcean App Platform or a managed Kubernetes cluster (DO DOKS)
+- Separate database server (DO Managed Postgres — $15/mo entry)
+- Add a CDN (Cloudflare is already in place — enable proxying)
+- Implement a job queue for LLM calls (BullMQ + Redis) to handle concurrent analysis requests gracefully
+- Consider caching frequent analysis patterns
+
+#### Tier 4 — Serious scale (1,000+ users / enterprise)
+- **Trigger**: ~£10k+ MRR or enterprise contracts requiring SLAs
+- Evaluate AWS (ECS/Fargate) or GCP for managed infrastructure with autoscaling
+- Dedicated Redis instance for session/cache
+- Read replicas for the database
+- Proper observability stack (Datadog, Sentry, or self-hosted Grafana)
+- Hire or contract a DevOps engineer — don't manage this alone
+
+#### LLM cost watch
+- Gemini API is currently free tier. At scale, LLM costs become real.
+- Monitor tokens per analysis × monthly analyses
+- Trigger: if LLM costs exceed 20% of MRR, evaluate prompt optimisation, response caching, or provider swap (the service layer in `lib/gemini.ts` is already designed for this)
 
 ### Dependency Upgrades
 - [ ]Upgrade Next.js 14 → 15 (breaking change — requires React 19 + async request API migration). Currently safe to defer: rewrites, next/image, and RSC features that carry the known CVEs are not used.

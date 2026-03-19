@@ -299,6 +299,37 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 
 ---
 
+## Email Infrastructure Reference
+
+### Overview
+- **Domain**: `sysanalyst.dev` — hosted on Cloudflare
+- **Outbound email (transactional)**: Resend API — sends magic link emails via Supabase
+- **Sender address**: `noreply@sysanalyst.dev` / display name `Seraphina`
+- **Resend account**: signed up with `<PROJECT_GOOGLE_ACCOUNT>`
+- **Inbound/contact email**: `hello@sysanalyst.dev` — NOT YET SET UP (pre-launch task)
+- **Privacy email**: `privacy@sysanalyst.dev` — NOT YET SET UP (pre-launch task, referenced in Privacy Policy)
+
+### What's working
+- Magic link emails send successfully via Resend API integration in Supabase
+- `sysanalyst.dev` domain is verified in Resend — additional sender addresses can be added without re-verification
+
+### Setting up hello@ and privacy@ (pre-launch)
+
+Use **Cloudflare Email Routing** (free) — domain is already on Cloudflare:
+
+1. Log in to Cloudflare dashboard → select `sysanalyst.dev` → Email → Email Routing
+2. Enable Email Routing (Cloudflare will add MX records automatically)
+3. Add custom address: `hello@sysanalyst.dev` → destination: your personal Gmail
+4. Add custom address: `privacy@sysanalyst.dev` → destination: your personal Gmail (or a separate inbox for GDPR hygiene)
+5. Verify the destination address when prompted (Cloudflare sends a confirmation email)
+- Note: check Resend's SPF/DKIM DNS records don't conflict — Cloudflare usually handles this gracefully but worth checking
+
+### SMTP history (for reference)
+- Attempted Supabase SMTP via Resend (`smtp.resend.com`, port 465 then 587) — failed silently
+- Switched to Resend API approach — this is what works and what is currently in use
+
+---
+
 ## Deployment Reference
 
 ### Server Details
