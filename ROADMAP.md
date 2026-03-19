@@ -84,7 +84,7 @@
 - [x]Run `npm audit` and resolve all high/critical runtime vulnerabilities before go-live
 
 ### Pre-Launch Checklist
-- [ ]Landing page (`/`) with value proposition and sign-up CTA
+- [x]Landing page (`/`) with value proposition and sign-up CTA
 - [ ]Google OAuth app verification submitted (allow 4-6 weeks for sensitive scope review)
 - [ ]Supabase magic link email template customised
 - [ ]Favicon and browser metadata confirmed
@@ -92,8 +92,8 @@
 - [x]Privacy Policy page (`/privacy`) — GDPR compliant, covers email, analyses, Google Drive connection
 - [x]Terms of Service page (`/terms`)
 - [ ]Set up `hello@sysanalyst.dev` and `privacy@sysanalyst.dev` via Cloudflare Email Routing (free, forwards to personal Gmail) — neither address exists yet. See RUNBOOK Email Infrastructure Reference for steps. Must exist before launch.
-- [ ]Cookie notice banner (Supabase sets auth cookies)
-- [ ]Legal links in landing page footer
+- [x]Cookie notice banner (strictly necessary cookies only, dismissible, links to Privacy Policy)
+- [x]Legal links in landing page footer
 
 ### SEO Foundation
 - [ ]Landing page (`/`) — copywriting, value proposition, hero section

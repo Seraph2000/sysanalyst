@@ -4,6 +4,7 @@ import "./globals.css";
 import AuthProvider from "@/components/AuthProvider";
 import AuthGuard from "@/components/AuthGuard";
 import ConditionalLayout from "@/components/ConditionalLayout";
+import CookieBanner from "@/components/CookieBanner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,6 +39,7 @@ export default function RootLayout({
               {children}
             </ConditionalLayout>
           </AuthGuard>
+          <CookieBanner />
         </AuthProvider>
       </body>
     </html>
