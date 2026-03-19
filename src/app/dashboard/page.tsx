@@ -40,7 +40,6 @@ export default function DashboardPage() {
   const loadAllItems = useCallback(async () => {
     if (!user) return;
     setLoading(true);
-
     try {
       const [analyses, directories] = await Promise.all([
         getAnalyses(user.id),
@@ -98,60 +97,52 @@ export default function DashboardPage() {
   const selected = items.find((a) => a.id === selectedId);
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-stone-800">Saved Analyses</h1>
-        <p className="text-stone-500 mt-1">
-          Your previous analyses, ready to revisit.
-        </p>
+    <div className="max-w-4xl mx-auto font-mono">
+      <div className="mb-10">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="h-px w-12 bg-[#C4B89A]/40" />
+          <span className="text-xs tracking-[0.3em] uppercase text-[#C4B89A]/60">Archive</span>
+        </div>
+        <h1 className="text-3xl font-bold text-[#F2EDE4]"
+          style={{ fontFamily: 'Georgia, serif' }}>
+          Saved Analyses
+        </h1>
+        <p className="text-sm text-[#C4B89A]/50 mt-2">Your previous analyses, ready to revisit.</p>
       </div>
 
       {loading ? (
-        <div className="text-center py-16">
-          <div className="inline-flex items-center gap-3 text-stone-500">
-            <div className="w-5 h-5 border-2 border-violet-300 border-t-violet-600 rounded-full animate-spin" />
-            <span>Loading your analyses...</span>
-          </div>
+        <div className="py-16 flex items-center gap-3 text-[#C4B89A]/40">
+          <div className="w-4 h-4 border border-[#C4B89A]/30 border-t-[#C4B89A] rounded-full animate-spin" />
+          <span className="text-xs tracking-widest uppercase">Loading...</span>
         </div>
       ) : items.length === 0 ? (
-        <div className="text-center py-16">
-          <p className="text-stone-400 text-lg">No saved analyses yet.</p>
-          <p className="text-stone-400 text-sm mt-2">
-            Run an analysis from the chat or directory page and it will appear here.
+        <div className="border border-[#C4B89A]/10 p-12 text-center">
+          <p className="text-[#C4B89A]/40 text-sm">No saved analyses yet.</p>
+          <p className="text-[#C4B89A]/30 text-xs mt-2">
+            Run an analysis and it will appear here.
           </p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div>
           {!selectedId && (
-            <div className="space-y-3">
+            <div className="grid grid-cols-1 gap-px bg-[#C4B89A]/10">
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white border border-stone-200 rounded-xl p-4 flex items-center justify-between hover:shadow-sm transition-shadow"
+                  className="bg-[#0D0D0D] border border-[#C4B89A]/10 p-4 flex items-center justify-between hover:bg-[#C4B89A]/5 transition-colors"
                 >
-                  <button
-                    onClick={() => setSelectedId(item.id)}
-                    className="flex-1 text-left"
-                  >
-                    <div className="font-medium text-stone-800">
-                      {item.title}
-                    </div>
-                    <div className="flex items-center gap-3 mt-1">
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${
-                        item.type === 'directory'
-                          ? 'bg-emerald-100 text-emerald-600'
-                          : 'bg-violet-100 text-violet-600'
-                      }`}>
+                  <button onClick={() => setSelectedId(item.id)} className="flex-1 text-left">
+                    <div className="text-sm text-[#F2EDE4] mb-1">{item.title}</div>
+                    <div className="flex items-center gap-4">
+                      <span className="text-xs tracking-widest uppercase text-[#C4B89A]/40">
                         {item.label}
                       </span>
-                      <span className="text-xs text-stone-400">
-                        {formatDate(item.createdAt)}
-                      </span>
+                      <span className="text-xs text-[#C4B89A]/30">{formatDate(item.createdAt)}</span>
                     </div>
                   </button>
                   <button
                     onClick={() => handleDelete(item)}
-                    className="text-stone-400 hover:text-red-500 transition-colors p-2"
+                    className="text-[#C4B89A]/20 hover:text-[#C4B89A]/60 transition-colors px-3 py-1 text-xs tracking-widest"
                     title="Delete"
                   >
                     ✕
@@ -162,28 +153,21 @@ export default function DashboardPage() {
           )}
 
           {selected && (
-            <div className="space-y-4">
+            <div className="space-y-6">
               <button
                 onClick={() => setSelectedId(null)}
-                className="text-sm text-violet-600 hover:text-violet-700 font-medium"
+                className="text-xs tracking-widest uppercase text-[#C4B89A]/40 hover:text-[#C4B89A] transition-colors"
               >
                 &larr; Back to list
               </button>
-              <div className="mb-2">
-                <h2 className="text-xl font-semibold text-stone-800">
+              <div>
+                <h2 className="text-xl font-bold text-[#F2EDE4]"
+                  style={{ fontFamily: 'Georgia, serif' }}>
                   {selected.title}
                 </h2>
-                <div className="flex items-center gap-3 mt-1">
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${
-                    selected.type === 'directory'
-                      ? 'bg-emerald-100 text-emerald-600'
-                      : 'bg-violet-100 text-violet-600'
-                  }`}>
-                    {selected.label}
-                  </span>
-                  <span className="text-xs text-stone-400">
-                    {formatDate(selected.createdAt)}
-                  </span>
+                <div className="flex items-center gap-4 mt-2">
+                  <span className="text-xs tracking-widest uppercase text-[#C4B89A]/40">{selected.label}</span>
+                  <span className="text-xs text-[#C4B89A]/30">{formatDate(selected.createdAt)}</span>
                 </div>
               </div>
               <AnalysisOutput rawMarkdown={selected.rawMarkdown} />

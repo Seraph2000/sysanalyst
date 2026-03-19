@@ -4,18 +4,24 @@ import ReactMarkdown from 'react-markdown';
 
 interface AnalysisCardProps {
   title: string;
-  icon: string;
+  index: number;
   content: string;
 }
 
-export default function AnalysisCard({ title, icon, content }: AnalysisCardProps) {
+export default function AnalysisCard({ title, index, content }: AnalysisCardProps) {
+  const num = String(index + 1).padStart(2, '0');
   return (
-    <div className="bg-white border border-stone-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-      <div className="flex items-center gap-2 mb-3">
-        <span className="text-xl">{icon}</span>
-        <h3 className="font-semibold text-stone-800 text-lg">{title}</h3>
+    <div className="bg-[#0D0D0D] border border-[#C4B89A]/15 p-6 flex flex-col gap-4">
+      <div>
+        <div className="text-xs tracking-[0.3em] text-[#C4B89A]/30 mb-2 font-mono">{num}</div>
+        <h3 className="font-bold text-[#F2EDE4] tracking-wide"
+          style={{ fontFamily: 'Georgia, serif' }}>
+          {title}
+        </h3>
       </div>
-      <div className="text-stone-600 leading-relaxed text-sm prose prose-sm prose-stone max-w-none">
+      <div className="text-sm text-[#C4B89A]/70 leading-relaxed prose prose-sm max-w-none font-mono
+        prose-p:text-[#C4B89A]/70 prose-li:text-[#C4B89A]/70 prose-strong:text-[#F2EDE4]
+        prose-headings:text-[#F2EDE4] prose-code:text-[#C4B89A] prose-ul:text-[#C4B89A]/70">
         <ReactMarkdown>{content}</ReactMarkdown>
       </div>
     </div>

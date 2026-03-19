@@ -122,21 +122,22 @@
 - Aesthetic inspired by: worn stencil arrows on wet tarmac, newspaper press, industrial signage
 
 ### Design Language
-- [ ]Dark tarmac background (`#0D0D0D`) with cream/newsprint content (`#F2EDE4`, `#C4B89A`)
-- [ ]Typographic hierarchy: serif headlines (Georgia/Playfair) + monospace body (Space Mono)
-- [ ]Hard offset borders instead of drop shadows — misregistered print feel
-- [ ]Worn arrow motif as brand element — logo mark, CTAs, dividers
-- [ ]Subtle grain/noise texture overlay on backgrounds
-- [ ]No gradients, no rounded pill buttons — flat, stamped, deliberate
+- [x]Dark tarmac background (`#0D0D0D`) with cream/newsprint content (`#F2EDE4`, `#C4B89A`)
+- [x]Monospace body font — Georgia serif on headlines (landing page + partially in app)
+- [x]Worn arrow motif as brand element — logo mark, CTAs, dividers
+- [x]Subtle grain/noise texture overlay on backgrounds (landing page)
+- [x]No gradients, no rounded pill buttons — flat, stamped, deliberate
+- [ ]Hard offset borders instead of drop shadows — misregistered print feel (inner app pages)
+- [ ]Georgia/Playfair serif headlines across inner app pages
 
 ### Pages
-- [ ]Landing page prototype built (v0.4.1) — refine and polish
-- [ ]App shell (sidebar, nav) restyled to match
+- [x]Landing page — polished and live
+- [x]App shell (sidebar, nav) restyled to match
 - [ ]Analysis output cards as "press sheets"
 - [ ]Settings and Dashboard restyled
 - [ ]Mobile-responsive polish across all pages
-- [ ]Favicon — muddy tyre mark (stamp/imprint aesthetic, works at 16px and 32px)
-- [ ]Brand icon suite — favicon, OG image, apple touch icon
+- [x]Favicon — SVG chevron brand mark (full tyre mark deferred to brand icon suite)
+- [ ]Brand icon suite — OG image, apple touch icon
 - [ ]Unified branding across all tools / future products (sysanalyst.dev as the brand home)
 
 ---
