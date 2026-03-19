@@ -85,19 +85,28 @@
 
 ### Pre-Launch Checklist
 - [x]Landing page (`/`) with value proposition and sign-up CTA
-- [ ]Google OAuth app verification submitted (allow 4-6 weeks for sensitive scope review)
-- [ ]Supabase magic link email template customised
 - [x]Favicon (SVG chevron brand mark, auto-loaded by Next.js)
-- [ ]Browser metadata confirmed (Open Graph, title tags — see SEO Foundation)
 - [x]Basic error boundaries in place (`error.tsx` + `not-found.tsx`)
 - [x]Privacy Policy page (`/privacy`) — GDPR compliant, covers email, analyses, Google Drive connection
 - [x]Terms of Service page (`/terms`)
-- [ ]Set up `hello@sysanalyst.dev` and `privacy@sysanalyst.dev` via Cloudflare Email Routing (free, forwards to personal Gmail) — neither address exists yet. See RUNBOOK Email Infrastructure Reference for steps. Must exist before launch.
 - [x]Cookie notice banner (strictly necessary cookies only, dismissible, links to Privacy Policy)
 - [x]Legal links in landing page footer
+- [x]v0.6 UI deployed to production — beta live at sysanalyst.dev
+- [ ]Set up `hello@sysanalyst.dev` and `privacy@sysanalyst.dev` via Cloudflare Email Routing — see RUNBOOK
+- [ ]Supabase magic link email template customised
+- [ ]Browser metadata / Open Graph tags — affects link previews in WhatsApp, iMessage, etc.
+- [ ]Google OAuth app verification submitted (allow 4-6 weeks — submit ASAP)
+
+### Brand & Marketing Collateral
+- [ ]Business card design (spec below) — print via Moo.com, dark card stock, cream ink
+  - Front: `#0D0D0D` background, cream chevron arrow top-left, **SERAPHINA** (Georgia serif, `#F2EDE4`), "Systems Analyst" (monospace, `#C4B89A`), sysanalyst.dev bottom-right
+  - Back: *"Clarity over complexity."* centred, Georgia italic, or large chevron mark alone
+  - Finish: matte, not gloss
+- [ ]OG image for social link previews (matches brand aesthetic)
+- [ ]Apple touch icon
 
 ### SEO Foundation
-- [ ]Landing page (`/`) — copywriting, value proposition, hero section
+- [x]Landing page copywriting and value proposition
 - [ ]Meta tags, Open Graph, Twitter Card across all pages
 - [ ]`sitemap.xml` and `robots.txt`
 - [ ]Structured data (JSON-LD) for the landing page
@@ -106,11 +115,12 @@
 
 ### Bootstrap Marketing
 - [ ]Blog section (`/blog`) — static MDX posts, SEO-optimised
-- [ ]3 launch posts: what Seraphina does, who it's for, how to use it
+- [ ]3 launch posts: what SysAnalyst does, who it's for, how to use it
 - [ ]Social proof placeholder (testimonials section, ready for real quotes)
 - [ ]"Share your analysis" feature — shareable link or screenshot export
 - [ ]Submit to relevant directories (Product Hunt, Indie Hackers, etc.)
 - [ ]Email capture for waitlist / early access (pre-monetisation)
+- [ ]Plausible Analytics installed — privacy-first traffic monitoring (see Observability section)
 
 ---
 
