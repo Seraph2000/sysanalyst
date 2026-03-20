@@ -98,10 +98,21 @@
 - [ ]Google OAuth app verification submitted (allow 4-6 weeks — submit ASAP)
 
 ### Brand & Marketing Collateral
-- [ ]Business card design (spec below) — print via Moo.com, dark card stock, cream ink
+- [ ]Business card design — print via Moo.com, dark card stock, cream ink, matte finish
+
+  **Design spec:**
   - Front: `#0D0D0D` background, cream chevron arrow top-left, **SERAPHINA** (Georgia serif, `#F2EDE4`), "Systems Analyst" (monospace, `#C4B89A`), sysanalyst.dev bottom-right
-  - Back: *"Clarity over complexity."* centred, Georgia italic, or large chevron mark alone
-  - Finish: matte, not gloss
+  - Back: *"Clarity over complexity."* centred, Georgia italic — or large chevron mark alone
+
+  **Canva steps:**
+  1. Go to canva.com → Create a design → Business Card (85mm × 55mm)
+  2. Set background colour to `#0D0D0D`
+  3. Add a text box: type **SERAPHINA** → font: Georgia, bold, colour `#F2EDE4`, tracking: wide
+  4. Add a text box below: type **Systems Analyst** → font: Space Mono (or Courier New), colour `#C4B89A`, size 8pt, ALL CAPS
+  5. Add a text box bottom-right: **sysanalyst.dev** → Space Mono, colour `#C4B89A`, size 7pt, opacity 60%
+  6. Add the chevron arrow: Insert → Elements → search "chevron" → recolour to `#C4B89A`, place top-left
+  7. Duplicate the page for the back → clear elements → add one centred text line: *"Clarity over complexity."* Georgia italic, `#C4B89A`, opacity 50%
+  8. Download as PDF (Print) → upload to moo.com → select Premium or Luxe card stock → matte finish
 - [ ]OG image for social link previews (matches brand aesthetic)
 - [ ]Apple touch icon
 
