@@ -114,15 +114,15 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - Check every staged diff before committing.
 
 ## GitHub
-- Repo: `Seraph2000/seraphina-agent` (public, Apache 2.0)
-- Remote: SSH via a per-repo deploy key (`~/.ssh/seraphina-agent_deploy`, set in repo-local `core.sshCommand`)
+- Repo: `Seraph2000/sysanalyst` (public, Apache 2.0) — renamed from `seraphina-agent` on 2026-11-12 to match the domain; GitHub redirects the old name
+- Remote: SSH via a per-repo deploy key (`~/.ssh/sysanalyst_deploy`, set in repo-local `core.sshCommand`)
 - Releases: `v0.1` (MVP), `v0.2` (auth + persistence), `v0.3` (customisation), `v0.3.1` (custom agent name + domain), `v0.4` (Google Drive), `v0.4.1` (bug fixes), `v0.5` (deployment + auth), `v0.6` (UI redesign), `v0.6.1` (SEO foundation + open-source release)
 
 ## Deployment
 - **Server**: DigitalOcean Droplet, Ubuntu 22.04, $6/mo, London (`lon1`)
 - **IP**: `<SERVER_IP>` (real value kept privately; SSH via the `sysanalyst.dev` hostname)
 - **Deploy user**: `seraphina` (non-root, sudo access)
-- **App directory**: `~/seraphina-agent`
+- **App directory**: `~/seraphina-agent` (clone made before the repo rename; fine to keep)
 - **Process manager**: PM2 (app name: `seraphina`)
 - **Web server**: Nginx reverse proxy (port 80/443 -> 3000)
 - **Domain**: `sysanalyst.dev` on Cloudflare

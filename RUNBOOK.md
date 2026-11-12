@@ -337,7 +337,7 @@ Use **Cloudflare Email Routing** (free) — domain is already on Cloudflare:
 - **Droplet**: $6/mo, Ubuntu 22.04, 1 vCPU / 1GB RAM, London (`lon1`)
 - **IP**: `<SERVER_IP>` (real value kept privately; SSH via the `sysanalyst.dev` hostname)
 - **Deploy user**: `seraphina`
-- **App directory**: `~/seraphina-agent`
+- **App directory**: `~/seraphina-agent` (clone made before the repo was renamed to `sysanalyst`)
 - **Process manager**: PM2 (app name: `seraphina`)
 - **Web server**: Nginx (reverse proxy -> port 3000)
 - **Domain**: `sysanalyst.dev` (Cloudflare DNS)

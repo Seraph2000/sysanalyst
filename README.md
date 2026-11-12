@@ -278,7 +278,7 @@ Convert the HTML template to a PNG and add it to the project.
 4. Set the dimensions to **1200 × 630** using the custom size fields at the top
 5. Press `Ctrl+Shift+P` → type **Capture screenshot** → press Enter
 6. Chrome saves a PNG — rename it `og-image.png`
-7. Move it into `seraphina-agent/public/og-image.png`
+7. Move it into `public/og-image.png`
 8. Deploy to the server — the OG tags in `layout.tsx` will pick it up automatically
 
 ---
@@ -291,7 +291,7 @@ The Apple touch icon appears when a user adds SysAnalyst to their iPhone home sc
 2. Press `F12` → **Toggle device toolbar** → set dimensions to **180 × 180**
 3. Press `Ctrl+Shift+P` → **Capture screenshot** → Enter
 4. Rename the file `apple-touch-icon.png`
-5. Move it into `seraphina-agent/public/apple-touch-icon.png`
+5. Move it into `public/apple-touch-icon.png`
 6. Add the following line to the `<head>` in `src/app/layout.tsx`:
    ```html
    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
