@@ -11,6 +11,7 @@ Beta deployment: [sysanalyst.dev](https://sysanalyst.dev) (currently offline) ·
 - **Solo founders and indie builders** with a half-built MVP and no clear picture of what it actually is
 - **Non-technical or early-technical founders** who need structure and next steps, not more code
 - **Anyone with a messy project folder or Google Drive** who wants it organised into something coherent
+- **Small teams** who want one shared, structured picture of what they're building
 
 ## What Seraphina Does
 

@@ -181,7 +181,34 @@
 - [ ]Mobile-responsive polish across all pages
 - [ ]Google OAuth app verification submitted
 
-## v0.8 — Sharing & Growth
+## v0.8 — Prompt Quality, Safety & Guardrails
+
+The analyst is only useful if founders can trust it with messy, real material. This release tunes it against realistic use cases and makes it safe by design.
+
+### Prompt tuning & evaluation
+- [ ]Realistic test set: messy founder notes, half-built MVP descriptions, real-shaped (synthetic) folder and Drive trees, multi-source documentation sprawl
+- [ ]Evaluation harness: run every mode × preference combination against the test set and score structure (all 8 sections), specificity and actionability
+- [ ]Tune the system prompt and per-mode prompts (`src/lib/prompts.ts`) from the results; version prompts so changes can be compared
+- [ ]Make sure the custom agent name and tone settings never weaken the analyst's guardrails
+
+### Data protection & PII
+- [ ]Detect and redact personal data (names, emails, phone numbers, financial and health details) in pasted notes and file/folder names before anything reaches the LLM
+- [ ]Show users what will be sent to the model before an analysis runs
+- [ ]Account deletion that removes all analyses, preferences and Drive tokens; export of a user's own data
+- [ ]Retention policy for stored analyses
+
+### AI access levels
+- [ ]Least privilege by default: names-only access to folders and Drive, read-only scopes, per-source consent, one-click disconnect
+- [ ]Prompt-injection defence: treat folder/file names and pasted content strictly as data, never as instructions
+- [ ]No autonomous actions: the agent advises; it never writes to, moves or deletes a user's files
+
+### Compliance
+- [ ]GDPR: lawful basis documented, sub-processor list (LLM provider, Supabase, Resend) in the Privacy Policy, data-region choices recorded
+- [ ]Move user content off LLM free tiers whose terms allow provider training on inputs (paid tier or a provider with no-training terms)
+- [ ]Rate limiting and abuse protection on all API routes
+- [ ]Clear disclaimer: analyses are advisory, not legal, financial or professional advice
+
+## v0.9 — Sharing & Growth
 
 - [ ]"Share your analysis" — read-only shareable link per analysis
 - [ ]Export an analysis to Markdown / PDF
