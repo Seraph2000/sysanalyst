@@ -4,7 +4,7 @@ A specialised, single-role analysis agent that brings clarity to messy MVPs, hal
 
 She is a **Systems Analyst**, not a general assistant.
 
-Beta deployment: [sysanalyst.dev](https://sysanalyst.dev) (currently offline) · Licence: [Apache 2.0](./LICENSE) · Roadmap: [ROADMAP.md](./ROADMAP.md)
+Live beta: [sysanalyst.dev](https://sysanalyst.dev) · Licence: [Apache 2.0](./LICENSE) · Roadmap: [ROADMAP.md](./ROADMAP.md)
 
 ## Who It's For
 

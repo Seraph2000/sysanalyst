@@ -172,8 +172,9 @@
 
 ## v0.7 — Reliability & Launch Readiness (next)
 
-- [ ]Bring the beta back online at sysanalyst.dev and add uptime monitoring (UptimeRobot / Better Uptime free tier)
-- [ ]Pin exact dependency versions and deploy with `npm ci` for reproducible server builds
+- [x]Bring the beta back online at sysanalyst.dev (restored from snapshot onto a fresh droplet, 2026-11-12)
+- [ ]Uptime monitoring (UptimeRobot / Better Uptime free tier)
+- [x]Pin exact dependency versions and deploy with `npm ci` for reproducible server builds
 - [ ]Automated tests: unit tests for `prompts.ts` (preference injection) and API route smoke tests
 - [ ]CI on GitHub Actions: lint, type-check and build on every push
 - [ ]Sentry error monitoring (`@sentry/nextjs`)

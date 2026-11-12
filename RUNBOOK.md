@@ -398,6 +398,37 @@ Certbot auto-renews. Manual renew: `sudo certbot renew`
 
 ---
 
+## Session 10 — 2026-11-12: v0.6.1 Open-source release + beta back online
+
+### What Was Done
+- Prepared the repo for public release: Apache 2.0 `LICENSE` + `NOTICE`, README rewrite, privacy rule in CLAUDE.md, `.gitignore` hardened (`.env*`, `private/`)
+- Rewrote git history with `git filter-repo` to replace a server IP and an account email with placeholders (dates and authorship preserved)
+- Renamed the repo `seraphina-agent` → `sysanalyst` to match the domain
+- Pinned exact dependency versions from the lockfile; bumped to `0.6.1`
+- Planned v0.7 (reliability) and v0.8 (prompt quality, safety and guardrails) in ROADMAP
+- Resumed the paused Supabase project; moved organisation ownership to a new account
+- Restored the droplet from its DigitalOcean snapshot onto a new droplet; repointed Cloudflare A records; existing Let's Encrypt cert still valid
+- Server: `apt upgrade` + reboot (new kernel), added 2GB swap, reset the clone to the rewritten history, `npm ci` + `npm run build` + `pm2 restart seraphina`
+- Verified live: `/`, `/privacy`, `/terms`, `/chat`, `/robots.txt`, `/sitemap.xml` all 200; magic-link sign-in works end to end
+
+### Key Decisions
+
+| Decision | Choice | Reasoning |
+|----------|--------|-----------|
+| Separate $6 droplet rather than a shared one | Restore snapshot | Fastest path back online; server already fully configured |
+| Keep Supabase for now | Defer self-hosted Postgres | Migration is a sizeable task in its own right; tracked for later |
+| Add swap | 2GB swapfile | 1GB droplet had no swap; Next.js builds risk OOM-killing the live app |
+
+### Troubleshooting
+
+| Issue | Resolution |
+|-------|------------|
+| DO web console: "All configured authentication methods failed" | Used the Recovery Console (Droplet → Settings) to log in and add the SSH key |
+| Site unreachable locally right after the DNS change | Local DNS cache; verified with `curl --resolve`, cleared on its own |
+| `/og-image.png` returns 404 | Only the HTML template is committed; PNG generation tracked in v0.7 |
+
+---
+
 ## Session Template
 
 Copy this for future sessions:
