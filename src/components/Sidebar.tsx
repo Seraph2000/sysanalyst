@@ -46,7 +46,7 @@ export default function Sidebar() {
 
       {/* Footer */}
       <div className="pt-6 border-t border-[#C4B89A]/10">
-        <p className="text-xs text-[#C4B89A]/20 tracking-widest uppercase">v0.5.0</p>
+        <p className="text-xs text-[#C4B89A]/20 tracking-widest uppercase">v0.6.0</p>
         <p className="text-xs text-[#C4B89A]/20 mt-1">Clarity over complexity.</p>
       </div>
     </aside>

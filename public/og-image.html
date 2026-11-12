@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1200" />
+  <title>OG Image — SysAnalyst</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background: #0D0D0D;
+      font-family: 'Space Mono', 'Courier New', monospace;
+      color: #C4B89A;
+    }
+
+    .grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .layout {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      width: 1200px;
+      height: 630px;
+    }
+
+    /* ── LEFT PANEL ── */
+    .left {
+      width: 560px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 52px 56px;
+      border-right: 1px solid rgba(196, 184, 154, 0.12);
+    }
+
+    .wordmark {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .wordmark-text {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #C4B89A;
+      opacity: 0.7;
+    }
+
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 0 32px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow-line {
+      width: 36px;
+      height: 1px;
+      background: rgba(196, 184, 154, 0.4);
+    }
+
+    .eyebrow-text {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(196, 184, 154, 0.5);
+    }
+
+    .headline {
+      font-family: Georgia, serif;
+      font-size: 42px;
+      font-weight: bold;
+      line-height: 1.1;
+      color: #F2EDE4;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+    }
+
+    .headline em {
+      font-style: italic;
+      color: #C4B89A;
+    }
+
+    .subtext {
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(196, 184, 154, 0.6);
+      max-width: 380px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .url {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(196, 184, 154, 0.4);
+    }
+
+    .badge {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(196, 184, 154, 0.35);
+      border: 1px solid rgba(196, 184, 154, 0.2);
+      padding: 3px 8px;
+    }
+
+    /* ── RIGHT PANEL ── */
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 52px 52px 52px 48px;
+      gap: 0;
+    }
+
+    .right-label {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(196, 184, 154, 0.4);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .right-label-line {
+      width: 28px;
+      height: 1px;
+      background: rgba(196, 184, 154, 0.3);
+    }
+
+    .cards {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: rgba(196, 184, 154, 0.08);
+    }
+
+    .card {
+      background: #0D0D0D;
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      border: 1px solid rgba(196, 184, 154, 0.08);
+      flex: 1;
+    }
+
+    .card-num {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: rgba(196, 184, 154, 0.25);
+      padding-top: 3px;
+      flex-shrink: 0;
+      width: 20px;
+    }
+
+    .card-body {}
+
+    .card-title {
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: bold;
+      color: #F2EDE4;
+      margin-bottom: 5px;
+      letter-spacing: 0.01em;
+    }
+
+    .card-desc {
+      font-size: 10.5px;
+      line-height: 1.6;
+      color: rgba(196, 184, 154, 0.55);
+    }
+
+    /* Arrow SVG inline */
+    .arrow-svg {
+      width: 72px;
+      height: 24px;
+      opacity: 0.75;
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+  <div class="layout">
+
+    <!-- LEFT -->
+    <div class="left">
+      <div class="wordmark">
+        <svg class="arrow-svg" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 20 L90 20 M75 5 L105 20 L75 35"
+            stroke="#C4B89A" stroke-width="3"
+            stroke-linecap="square" stroke-linejoin="miter"
+            stroke-dasharray="2 1"/>
+        </svg>
+        <span class="wordmark-text">SysAnalyst</span>
+      </div>
+
+      <div class="hero">
+        <div class="eyebrow">
+          <div class="eyebrow-line"></div>
+          <span class="eyebrow-text">Systems Analysis</span>
+        </div>
+        <h1 class="headline">
+          It&rsquo;s not chaos.<br />
+          <em>It&rsquo;s an architecture</em><br />
+          waiting to be read.
+        </h1>
+        <p class="subtext">
+          Describe your idea, connect your project files, or share your
+          Google Drive &mdash; and get structured feedback on what
+          you&rsquo;re actually building, what&rsquo;s missing, and
+          exactly what to do next.
+        </p>
+      </div>
+
+      <div class="footer-left">
+        <span class="url">sysanalyst.dev</span>
+        <span class="badge">Beta</span>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+      <div class="right-label">
+        <div class="right-label-line"></div>
+        What you get
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <span class="card-num">01</span>
+          <div class="card-body">
+            <div class="card-title">Capability Map</div>
+            <div class="card-desc">What your system actually does &mdash; not what you think it does.</div>
+          </div>
+        </div>
+        <div class="card">
+          <span class="card-num">02</span>
+          <div class="card-body">
+            <div class="card-title">Intent Clarification</div>
+            <div class="card-desc">The real goal behind the build, surfaced and stated plainly.</div>
+          </div>
+        </div>
+        <div class="card">
+          <span class="card-num">03</span>
+          <div class="card-body">
+            <div class="card-title">Architecture Simplification</div>
+            <div class="card-desc">What&rsquo;s over-engineered, what&rsquo;s fragile, and the simplest coherent version.</div>
+          </div>
+        </div>
+        <div class="card">
+          <span class="card-num">04</span>
+          <div class="card-body">
+            <div class="card-title">Risks &amp; Assumptions</div>
+            <div class="card-desc">Everything you&rsquo;re betting on that hasn&rsquo;t been validated yet.</div>
+          </div>
+        </div>
+        <div class="card">
+          <span class="card-num">05</span>
+          <div class="card-body">
+            <div class="card-title">Next-Step Sequence</div>
+            <div class="card-desc">Three to five concrete actions, in order &mdash; specific enough to start today.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

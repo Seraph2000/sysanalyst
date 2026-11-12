@@ -28,9 +28,28 @@ function GrainOverlay() {
   );
 }
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "SysAnalyst",
+  url: "https://sysanalyst.dev",
+  description: "A specialised systems analyst agent that brings structural clarity to messy MVPs and early-stage ideas.",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "GBP",
+  },
+};
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#C4B89A] font-mono relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <GrainOverlay />
 
       {/* Nav */}
