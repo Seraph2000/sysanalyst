@@ -201,7 +201,7 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 
 ### What Was Done
 - Updated ROADMAP.md: v0.4 scoped to Google Drive only; added v0.5 (deployment + SEO/marketing); added v0.6 (UI redesign); Dropbox/OneDrive moved to Future
-- Created dedicated Google business account (`<PROJECT_GOOGLE_ACCOUNT>`) for Cloud Console
+- Created a dedicated Google account for the project for Cloud Console
 - Set up Google Cloud Console project (`sysanalyst-agent`), enabled Drive API, configured OAuth consent screen with `drive.readonly` scope
 - Created OAuth 2.0 credentials (Client ID + Secret)
 - Built full Google Drive integration: OAuth flow, token storage, folder tree fetching, analysis, disconnect
@@ -261,7 +261,7 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 - Fixed two ESLint build errors blocking `npm run build`:
   - `route.ts`: split destructuring -- `refresh_token` and `expires_at` are never reassigned, changed to `const`; `access_token` kept as `let` (reassigned on token refresh)
   - `AuthGuard.tsx`: moved all `useState` hooks above the early return for `/` (React hooks rules-of-hooks violation)
-- Provisioned DigitalOcean Droplet: Ubuntu 22.04, $6/mo, London region (`lon1`), IP `<SERVER_IP>`
+- Provisioned DigitalOcean Droplet: Ubuntu 22.04, $6/mo, London region (`lon1`)
 - Updated server (`apt update && apt upgrade`) -- kept local `sshd_config` when prompted
 - Installed Node.js 20 via NodeSource repo, PM2 globally, Nginx
 - Created non-root deploy user `seraphina`:
@@ -278,7 +278,7 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 - `npm run build` on the server (after pushing ESLint fixes)
 - Start app with PM2 (`pm2 start npm --name "seraphina" -- start && pm2 save && pm2 startup`)
 - Configure Nginx reverse proxy (port 80/443 -> 3000)
-- Point `sysanalyst.dev` DNS on Cloudflare to Droplet IP `<SERVER_IP>`
+- Point `sysanalyst.dev` DNS on Cloudflare to the Droplet IP
 - Issue SSL certificate with Certbot (Let's Encrypt)
 
 ### Key Decisions
@@ -305,7 +305,7 @@ Use the same short input for all tests (e.g. "I'm building a task manager app fo
 - **Domain**: `sysanalyst.dev` — hosted on Cloudflare
 - **Outbound email (transactional)**: Resend API — sends magic link emails via Supabase
 - **Sender address**: `noreply@sysanalyst.dev` / display name `Seraphina`
-- **Resend account**: signed up with `<PROJECT_GOOGLE_ACCOUNT>`
+- **Resend account**: signed up with the project's Google account
 - **Inbound/contact email**: `hello@sysanalyst.dev` — NOT YET SET UP (pre-launch task)
 - **Privacy email**: `privacy@sysanalyst.dev` — NOT YET SET UP (pre-launch task, referenced in Privacy Policy)
 
@@ -335,7 +335,7 @@ Use **Cloudflare Email Routing** (free) — domain is already on Cloudflare:
 ### Server Details
 - **Provider**: DigitalOcean
 - **Droplet**: $6/mo, Ubuntu 22.04, 1 vCPU / 1GB RAM, London (`lon1`)
-- **IP**: `<SERVER_IP>`
+- **IP**: `<SERVER_IP>` (real value kept privately; SSH via the `sysanalyst.dev` hostname)
 - **Deploy user**: `seraphina`
 - **App directory**: `~/seraphina-agent`
 - **Process manager**: PM2 (app name: `seraphina`)
@@ -346,7 +346,7 @@ Use **Cloudflare Email Routing** (free) — domain is already on Cloudflare:
 ### Routine Deployment
 
 ```bash
-ssh seraphina@<SERVER_IP>
+ssh seraphina@sysanalyst.dev
 cd ~/seraphina-agent
 git pull
 npm install
@@ -434,7 +434,7 @@ Copy this for future sessions:
   - Added redirect URL: `https://sysanalyst.dev/**`
 - Hit Supabase free tier email rate limit (3 emails/hour, shared across all users)
 - Set up Resend for custom SMTP to remove rate limit:
-  - Signed up at resend.com with `<PROJECT_GOOGLE_ACCOUNT>`
+  - Signed up at resend.com with the project's Google account
   - Added and verified `sysanalyst.dev` domain (eu-west-1, auto-configured DNS via Cloudflare)
   - Created API key (full access)
   - Configured Supabase SMTP: host `smtp.resend.com`, port `465`, username `resend`

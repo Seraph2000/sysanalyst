@@ -1,6 +1,6 @@
 # Seraphina — Systems Analyst Agent: Roadmap
 
-## v0.1 — MVP (Current)
+## v0.1 — MVP ✓ (shipped Feb 2026)
 
 ### Core Analysis Engine
 - [x]Google Gemini API integration (swappable LLM service layer)
@@ -39,7 +39,7 @@
 
 ---
 
-## v0.2 — Auth & Persistence
+## v0.2 — Auth & Persistence ✓ (shipped Feb 2026)
 
 - [x]Passwordless authentication (magic links / email codes)
 - [x]Supabase database integration
@@ -49,7 +49,7 @@
 
 ---
 
-## v0.3 — Customisation
+## v0.3 — Customisation ✓ (shipped Feb 2026)
 
 - [x]Tone settings (gentle, crisp, blunt, playful)
 - [x]Technical depth slider (beginner → expert)
@@ -60,7 +60,7 @@
 
 ---
 
-## v0.4 — Google Drive Integration ✓
+## v0.4 — Google Drive Integration ✓ (shipped Feb 2026)
 
 - [x]Google Cloud Console project + OAuth 2.0 credentials
 - [x]OAuth consent screen and Drive read-only scope
@@ -72,7 +72,7 @@
 
 ---
 
-## v0.5 — Deployment, Domain & Marketing Foundation
+## v0.5 — Deployment, Domain & Marketing Foundation (deployment shipped Mar 2026; marketing items ongoing)
 
 ### DigitalOcean Deployment
 - [x]Provision $6/mo Droplet (Ubuntu, Node 20)
@@ -94,33 +94,40 @@
 - [x]v0.6 UI deployed to production — beta live at sysanalyst.dev
 - [ ]Set up `hello@sysanalyst.dev` and `privacy@sysanalyst.dev` via Cloudflare Email Routing — see RUNBOOK
 - [ ]Supabase magic link email template customised
-- [ ]Browser metadata / Open Graph tags — affects link previews in WhatsApp, iMessage, etc.
+- [x]Browser metadata / Open Graph tags — affects link previews in WhatsApp, iMessage, etc.
 - [ ]Google OAuth app verification submitted (allow 4-6 weeks — submit ASAP)
 
 ### Brand & Marketing Collateral
-- [ ]Business card design — print via Moo.com, dark card stock, cream ink, matte finish
+- [ ]Business card design — print via Moo.com, dark card stock, cream ink, matte finish, square corners — **chosen design: D9**
+
+  **Design principles:**
+  - Landscape, 85mm × 55mm
+  - URL is the hero — `sysanalyst.dev` is the largest element, the main driver
+  - SERAPHINA present but mysterious — small, muted, no explanation. Makes people wonder, visit the URL, find out
+  - Read order: `sysanalyst.dev` → SYSTEMS ANALYST → SERAPHINA (who?)
+  - Single chevron (consistent with favicon and landing page arrow — not double)
+  - Square corners on print (matches flat, no-rounded aesthetic of the app)
 
   **Design spec:**
-  - Front: `#0D0D0D` background, cream chevron arrow top-left, **SERAPHINA** (Georgia serif, `#F2EDE4`), "Systems Analyst" (monospace, `#C4B89A`), sysanalyst.dev bottom-right
-  - Back: *"Clarity over complexity."* centred, Georgia italic — or large chevron mark alone
+  - Front: `#0D0D0D` background — single chevron `›` top-left (`#C4B89A`, opacity 60%) — `sysanalyst.dev` hero (Georgia or Space Mono bold, 18–20pt, `#F2EDE4`, vertically centred) — `SYSTEMS ANALYST` below (Space Mono, 7pt, tracking 250–300, `#C4B89A`, opacity 50%) — `SERAPHINA` below that (Space Mono, 6pt, `#C4B89A`, opacity 25%)
+  - Back: *"Clarity over complexity."* centred, Georgia italic, 10pt, `#C4B89A`, opacity 50%
 
-  **Canva steps:**
-  1. Go to canva.com → Create a design → Business Card (85mm × 55mm)
-  2. Set background colour to `#0D0D0D`
-  3. Add a text box: type **SERAPHINA** → font: Georgia, bold, colour `#F2EDE4`, tracking: wide
-  4. Add a text box below: type **Systems Analyst** → font: Space Mono (or Courier New), colour `#C4B89A`, size 8pt, ALL CAPS
-  5. Add a text box bottom-right: **sysanalyst.dev** → Space Mono, colour `#C4B89A`, size 7pt, opacity 60%
-  6. Add the chevron arrow: Insert → Elements → search "chevron" → recolour to `#C4B89A`, place top-left
-  7. Duplicate the page for the back → clear elements → add one centred text line: *"Clarity over complexity."* Georgia italic, `#C4B89A`, opacity 50%
-  8. Download as PDF (Print) → upload to moo.com → select Premium or Luxe card stock → matte finish
+  **Figma steps:**
+  1. Create frame: 85mm × 55mm, background `#0D0D0D`
+  2. Add chevron `›`: ~14px, colour `#C4B89A`, opacity 60%, position top-left (`x: 16, y: 16`)
+  3. Add text: **sysanalyst.dev** → Georgia or Space Mono, bold, 18–20pt, colour `#F2EDE4`, left-aligned, vertically centred (slightly above mid)
+  4. Add text below: **SYSTEMS ANALYST** → Space Mono, 7pt, tracking 250–300, colour `#C4B89A`, opacity 50%
+  5. Add text below: **SERAPHINA** → Space Mono, 6pt, tracking wide, colour `#C4B89A`, opacity 25%
+  6. Duplicate frame for back → clear all elements → add one centred line: *"Clarity over complexity."* Georgia italic, 10pt, `#C4B89A`, opacity 50%, perfectly centred
+  7. Export both frames as PDF (print) at 300dpi → upload to moo.com → Luxe or Premium stock → matte finish → square corners
 - [ ]OG image for social link previews (matches brand aesthetic)
 - [ ]Apple touch icon
 
 ### SEO Foundation
 - [x]Landing page copywriting and value proposition
-- [ ]Meta tags, Open Graph, Twitter Card across all pages
-- [ ]`sitemap.xml` and `robots.txt`
-- [ ]Structured data (JSON-LD) for the landing page
+- [x]Meta tags, Open Graph, Twitter Card (site-wide via root layout)
+- [x]`sitemap.xml` and `robots.txt`
+- [x]Structured data (JSON-LD) for the landing page
 - [ ]Google Search Console setup and site verified
 - [ ]Core Web Vitals baseline measured
 
@@ -131,11 +138,11 @@
 - [ ]"Share your analysis" feature — shareable link or screenshot export
 - [ ]Submit to relevant directories (Product Hunt, Indie Hackers, etc.)
 - [ ]Email capture for waitlist / early access (pre-monetisation)
-- [ ]Plausible Analytics installed — privacy-first traffic monitoring (see Observability section)
+- [x]Plausible Analytics script added to layout (site registration on plausible.io still to do)
 
 ---
 
-## v0.6 — UI Redesign: "Hot Off the Press"
+## v0.6 — UI Redesign: "Hot Off the Press" ✓ (shipped Mar 2026; v0.6.1 adds SEO foundation + open-source licence)
 
 ### Positioning
 - Deliberately anti-Silicon-Valley — gritty, real, directional
@@ -160,6 +167,26 @@
 - [x]Favicon — SVG chevron brand mark
 - [ ]Brand icon suite — OG image, apple touch icon — deferred post-launch
 - [ ]Unified branding across all tools / future products (sysanalyst.dev as the brand home) — future
+
+---
+
+## v0.7 — Reliability & Launch Readiness (next)
+
+- [ ]Bring the beta back online at sysanalyst.dev and add uptime monitoring (UptimeRobot / Better Uptime free tier)
+- [ ]Pin exact dependency versions and deploy with `npm ci` for reproducible server builds
+- [ ]Automated tests: unit tests for `prompts.ts` (preference injection) and API route smoke tests
+- [ ]CI on GitHub Actions: lint, type-check and build on every push
+- [ ]Sentry error monitoring (`@sentry/nextjs`)
+- [ ]OG image PNG + Apple touch icon generated from the `public/` HTML templates
+- [ ]Mobile-responsive polish across all pages
+- [ ]Google OAuth app verification submitted
+
+## v0.8 — Sharing & Growth
+
+- [ ]"Share your analysis" — read-only shareable link per analysis
+- [ ]Export an analysis to Markdown / PDF
+- [ ]Blog section (`/blog`) with 3 launch posts
+- [ ]Upgrade Next.js 14 → 15 (React 19, async request APIs)
 
 ---
 

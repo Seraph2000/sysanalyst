@@ -108,14 +108,19 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 - `supabase-v0.4.sql` — Database migration v0.4 (google_drive_tokens table)
 - `src/lib/hooks.ts` — Custom hooks (`useAgentName`)
 
+## Privacy rule (public repo)
+- **Nothing confidential or private is ever committed or pushed**: no API keys, `.env.local`, real server IPs, account logins, personal details or real user data.
+- Public docs use placeholders (e.g. `<SERVER_IP>`) or the `sysanalyst.dev` hostname. Real values live in `private/` (gitignored).
+- Check every staged diff before committing.
+
 ## GitHub
-- Repo: `Seraph2000/seraphina-agent` (private)
-- Remote: HTTPS via `gh auth`
-- Releases: `v0.1` (MVP), `v0.2` (auth + persistence), `v0.3` (customisation), `v0.3.1` (custom agent name + domain), `v0.4` (Google Drive), `v0.4.1` (bug fixes)
+- Repo: `Seraph2000/seraphina-agent` (public, Apache 2.0)
+- Remote: SSH via a per-repo deploy key (`~/.ssh/seraphina-agent_deploy`, set in repo-local `core.sshCommand`)
+- Releases: `v0.1` (MVP), `v0.2` (auth + persistence), `v0.3` (customisation), `v0.3.1` (custom agent name + domain), `v0.4` (Google Drive), `v0.4.1` (bug fixes), `v0.5` (deployment + auth), `v0.6` (UI redesign), `v0.6.1` (SEO foundation + open-source release)
 
 ## Deployment
 - **Server**: DigitalOcean Droplet, Ubuntu 22.04, $6/mo, London (`lon1`)
-- **IP**: `<SERVER_IP>`
+- **IP**: `<SERVER_IP>` (real value kept privately; SSH via the `sysanalyst.dev` hostname)
 - **Deploy user**: `seraphina` (non-root, sudo access)
 - **App directory**: `~/seraphina-agent`
 - **Process manager**: PM2 (app name: `seraphina`)
@@ -126,7 +131,7 @@ Seraphina (the human) — founder, non-technical but learning. Prefers clear exp
 
 ### Routine deployment
 ```bash
-ssh seraphina@<SERVER_IP>
+ssh seraphina@sysanalyst.dev
 cd ~/seraphina-agent
 git pull
 npm install
