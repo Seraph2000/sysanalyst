@@ -49,7 +49,7 @@ export default function PrivacyPage() {
           style={{ fontFamily: 'Georgia, serif' }}>
           Privacy Policy
         </h1>
-        <p className="text-sm text-[#C4B89A]/40 mb-16">Last updated: 19 March 2026</p>
+        <p className="text-sm text-[#C4B89A]/40 mb-16">Last updated: 13 November 2026</p>
 
         <div className="space-y-12 text-[#C4B89A]/70 leading-relaxed text-sm">
 
@@ -84,7 +84,7 @@ export default function PrivacyPage() {
               </div>
               <div className="border-l-2 border-[#C4B89A]/20 pl-4">
                 <p className="text-[#F2EDE4] mb-1">Folder and file names</p>
-                <p>If you use the Directory Analyser or Google Drive integration, we receive folder and file names only — never file contents. These are processed to generate structural analysis and are not stored beyond the session.</p>
+                <p>If you use the Directory Analyser or Google Drive integration, we receive folder and file names only — never file contents. Names that look like they hold credentials (for example <code>.env</code> files, private keys, or files named &ldquo;passwords&rdquo;) are replaced with a placeholder before anything is shown, sent or saved. The remaining structure is sent to our AI provider to generate the analysis, and is saved with that analysis in your account so you can revisit it. You can delete it at any time from Saved Analyses.</p>
               </div>
               <div className="border-l-2 border-[#C4B89A]/20 pl-4">
                 <p className="text-[#F2EDE4] mb-1">Google OAuth tokens</p>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { analyseDirectory } from '@/lib/gemini';
 import { DirectoryAnalyseRequest } from '@/lib/types';
+import { redactSensitiveEntries } from '@/lib/sensitive';
 
 export async function POST(request: NextRequest) {
   let agentName = 'Seraphina';
@@ -16,7 +17,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await analyseDirectory(tree, preferences, agentName);
+    // Backstop: redact again server-side, whatever the client sent.
+    const result = await analyseDirectory(redactSensitiveEntries(tree), preferences, agentName);
     return NextResponse.json({ result });
   } catch (error) {
     console.error('Directory analysis error:', error);

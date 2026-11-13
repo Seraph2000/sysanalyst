@@ -1,5 +1,6 @@
 // Server-only — do not import from client components
 import { DirectoryEntry } from './types';
+import { isSensitiveName, HIDDEN_FILE_LABEL, HIDDEN_FOLDER_LABEL } from './sensitive';
 
 const FOLDER_MIME = 'application/vnd.google-apps.folder';
 const DRIVE_API = 'https://www.googleapis.com/drive/v3';
@@ -45,6 +46,16 @@ async function buildTree(
   const entries: DirectoryEntry[] = [];
 
   for (const item of items) {
+    // Guardrail: hide credential-like names and don't open such folders.
+    if (isSensitiveName(item.name, item.mimeType === FOLDER_MIME)) {
+      entries.push(
+        item.mimeType === FOLDER_MIME
+          ? { name: HIDDEN_FOLDER_LABEL, type: 'directory', children: [] }
+          : { name: HIDDEN_FILE_LABEL, type: 'file' }
+      );
+      continue;
+    }
+
     if (item.mimeType === FOLDER_MIME) {
       folderCount.value++;
       const children = await buildTree(accessToken, item.id, depth + 1, folderCount);

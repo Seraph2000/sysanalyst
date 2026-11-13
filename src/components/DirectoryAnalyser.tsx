@@ -7,11 +7,25 @@ import { getPreferences } from '@/lib/preferences';
 import { useAuth } from './AuthProvider';
 import { useAgentName } from '@/lib/hooks';
 import AnalysisOutput from './AnalysisOutput';
+import { isSensitiveName, HIDDEN_FILE_LABEL, HIDDEN_FOLDER_LABEL } from '@/lib/sensitive';
+
+// Generated/dependency folders: shown by name but not opened. Their contents
+// say nothing about how the project is organised, and they can add thousands
+// of entries, which slows the AI down enough to hit the server time limit.
+const SKIPPED_DIRS = new Set([
+  'node_modules', 'bower_components', 'vendor',
+  'venv', 'env', '__pycache__', 'site-packages', '.venv',
+  'dist', 'build', 'out', 'target', 'coverage',
+]);
+
+// Upper limit on the number of files and folders sent for analysis.
+const MAX_ENTRIES = 1500;
 
 async function readDirectoryRecursive(
   dirHandle: FileSystemDirectoryHandle,
   depth = 0,
-  maxDepth = 4
+  maxDepth = 4,
+  budget = { remaining: MAX_ENTRIES, truncated: false }
 ): Promise<DirectoryEntry[]> {
   if (depth > maxDepth) return [];
 
@@ -20,12 +34,28 @@ async function readDirectoryRecursive(
   // File System Access API lacks full TS definitions
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   for await (const entry of (dirHandle as any).values()) {
-    if (entry.name.startsWith('.') || entry.name === 'node_modules') continue;
+    if (entry.name.startsWith('.')) continue;
+    if (budget.remaining <= 0) {
+      budget.truncated = true;
+      break;
+    }
+    budget.remaining--;
+
+    // Guardrail: never show, send or save names that look like credentials,
+    // and never look inside folders with such names.
+    if (isSensitiveName(entry.name, entry.kind === 'directory')) {
+      entries.push(
+        entry.kind === 'directory'
+          ? { name: HIDDEN_FOLDER_LABEL, type: 'directory', children: [] }
+          : { name: HIDDEN_FILE_LABEL, type: 'file' }
+      );
+      continue;
+    }
 
     if (entry.kind === 'directory') {
       const children =
-        depth < maxDepth
-          ? await readDirectoryRecursive(entry as FileSystemDirectoryHandle, depth + 1, maxDepth)
+        depth < maxDepth && !SKIPPED_DIRS.has(entry.name.toLowerCase())
+          ? await readDirectoryRecursive(entry as FileSystemDirectoryHandle, depth + 1, maxDepth, budget)
           : [];
       entries.push({ name: entry.name, type: 'directory', children });
     } else {
@@ -81,10 +111,15 @@ export default function DirectoryAnalyser() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dirHandle = await (window as unknown as Record<string, () => Promise<FileSystemDirectoryHandle>>).showDirectoryPicker();
       setFolderName(dirHandle.name);
-      const entries = await readDirectoryRecursive(dirHandle);
+      const budget = { remaining: MAX_ENTRIES, truncated: false };
+      const entries = await readDirectoryRecursive(dirHandle, 0, 4, budget);
       setTree(entries);
       setAnalysisResult(null);
-      setError(null);
+      setError(
+        budget.truncated
+          ? `This folder is very large, so only the first ${MAX_ENTRIES} items will be analysed. For a fuller picture, pick a smaller sub-folder.`
+          : null
+      );
     } catch (err) {
       if (err instanceof Error && err.name === 'AbortError') return;
       setError('Failed to read folder. Please try again.');
@@ -104,9 +139,20 @@ export default function DirectoryAnalyser() {
         body: JSON.stringify({ tree, preferences }),
       });
 
-      const data = await response.json();
+      // The server may return an HTML error page (e.g. a gateway timeout)
+      // instead of JSON, so don't assume the body parses.
+      let data: { result?: string; error?: string } = {};
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(
+          response.status === 504 || response.status === 524
+            ? `${agentName} took too long on this folder. Try a smaller sub-folder, or try again in a minute.`
+            : `${agentName} is unavailable right now. Please try again in a minute.`
+        );
+      }
 
-      if (!response.ok) {
+      if (!response.ok || !data.result) {
         throw new Error(data.error || 'Directory analysis failed');
       }
 
