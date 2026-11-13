@@ -10,6 +10,12 @@ function getClient() {
   return new GoogleGenerativeAI(apiKey);
 }
 
+// Google retires models regularly. Override with GEMINI_MODEL in .env.local
+// (then `pm2 restart seraphina`) to switch without a code change.
+function getModelName() {
+  return process.env.GEMINI_MODEL || 'gemini-3.8-flash';
+}
+
 function formatDirectoryTree(entries: DirectoryEntry[], indent = ''): string {
   let result = '';
   for (const entry of entries) {
@@ -30,7 +36,7 @@ export async function analyseInput(
 ): Promise<string> {
   const client = getClient();
   const model = client.getGenerativeModel({
-    model: 'gemini-2.5-flash',
+    model: getModelName(),
     systemInstruction: buildSystemPrompt(agentName),
   });
 
@@ -47,7 +53,7 @@ export async function analyseDirectory(
 ): Promise<string> {
   const client = getClient();
   const model = client.getGenerativeModel({
-    model: 'gemini-2.5-flash',
+    model: getModelName(),
     systemInstruction: buildSystemPrompt(agentName),
   });
 
